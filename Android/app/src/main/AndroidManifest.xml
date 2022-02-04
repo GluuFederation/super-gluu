@@ -25,9 +25,6 @@
     <!-- Permission to get working with fingerprints -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
 
-    <!--For ia-purchases-->
-    <uses-permission android:name="com.android.vending.BILLING" />
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
