@@ -1,0 +1,193 @@
+
+
+
+"Landing_Incorrect_Passcode" = "تجاوز عدد محاولات ادخال  رمز المرور العدد المسموح به. انتظر 10 دقائق وحاول مرة أخرى.";
+
+
+"Launch_Enter_Passcode"  = "ادخل كلمة المرور";
+"Launch_Forgot_Passcode" = "نسيت رمز المرور";
+
+
+"Security_Passcode" = "رمز المرور";
+"Security_Touch_Id"  = "معرف اللمس";
+
+
+"Home_Check_Internet"       = "تحقق من اتصالك بالإنترنت وحاول مرة أخرى.";
+"Home_No_Internet"          = "لا يوجد اتصال بالإنترنت";
+"Home_Tap_To_Scan_QR"       = "قد يتم تقديمك مع رمز الاستجابة السريعة(ََQR) للتسجيل أو المصادقة. اضغط على الزر لفتح الماسح الضوئي QR.";
+"Home_Welcome"              = "مرحبًا بك في تطبيق سوبر جلو!";
+"Home_Scan"                 = "مسح رمز الاستجابة السريعة (QR)";
+"Home_Remove_Ads"           = "ازالة الاعلانات";
+"Home_QR_Not_Recognized"    = "لم يتم التعرف على رمز الاستجابة السريعة (QR). حاول مرة أخري.";
+"Home_Auth_Success"         = "تمت المصادقة بنجاح.";
+"Home_Registration_Success" = "تم التسجيل بنجاح.";
+"Home_Registration_Failed"  = "فشل في التسجيل. حاول مرة أخري.";
+"Home_Decline_Failed"       = "فشل التراجع.";
+"Home_Authenticating"       =" يتم المصادقة ...";
+"Home_Registering"          = "يتم التسجيل...";
+"Home_Auth_Failed"          = "المصادقة فشلت. حاول مرة أخري.";
+"Home_Auth_Declined"        = "تم رفض المصادقة";
+"Home_Expired_Push"         = "انتهت صلاحية إشعار الدفع الخاص بك";
+
+
+"Subscription_Details" = "تفاصيل الاشتراك";
+"Details"              = "التفاصيل";
+"Subscription_Info"    = "الاشتراك الشهري يجعل  تطبيق سوبر جلو خاليًا تمامًا من الإعلانات. بعد عملية شراء ناجحة ، لن ترى إعلانات على شكل اشعارات أو إعلانات تستحوذ على كامل الشاشة بعد الآن. سيتم تحميل; دفعتك على حساب iTunes الخاص بك بمجرد تأكيد عملية الشراء. سيتم فرض رسوم على حساب iTunes الخاص بك مرة أخرى عندما يتم تجديد اشتراكك تلقائيًا في نهاية فترة الاشراك الحالية ما لم يتم إيقاف التجديد; التلقائي قبل 24 ساعة على الأقل من نهاية الفترة الحالية. سيتم خسارة أي جزء غير مستخدم من فترة التجربة المجانية عند شراء الاشتراك. يمكنك إدارة أو إيقاف التجديد التلقائي في إعدادات حساب معرف Apple الخاص بك في أي وقت بعد الشراء.";
+
+
+"Menu_Logs"           = "السجلات";
+"Menu_Keys"           = "المفاتيح";
+"Menu_Passcode"       = "رمز العبور";
+"Menu_User_Guide"     = "دليل المستخدم";
+"Menu_Privacy_Policy" = "السياسة الخصوصية";
+"Menu_Settings"       = "الإدادات";
+"Menu_Help"           = "المساعدة";
+
+
+"Logs_Description" = "في كل مرة يتم استخدام سوبر جلو ، يتم تسجيل سجل المعاملات في التطبيق الخاص بك.";
+
+
+"Passcode_Enabled_Info"   = "عند التمكين ، سيتم حماية الوصول إلى تطبيق سوبر جلو بواسطة معرف اللمس.";
+"Passcode_Touch"          = "معرف اللمس;";
+"Passcode_Touch_Security" = "امان معرف اللمس";
+
+
+"Passcode_Set"                 = "تعيين رمز المرور";
+"Passcode_Enter_A_Passcode"    = "أدخل رمز المرور";
+"Passcode_Reenter"             = "أعد إدخال رمز المرور الخاص بك";
+"Passcode_Enter_Passcode"      = "أدخل رمز المرور";
+"Passcode_Enter_Your_Passcode" = "أدخل رمز المرور";
+"Passcode_Change"              = "تغيير رمز المرور";
+"Passcode_Enter_Old"           = "أدخل رمز المرور القديم";
+"Passcode_Enter_New"           = "أدخل رمز المرور الجديد";
+"Passcode_Reenter_New"         = "أعد إدخال رمز المرور الجديد";
+"Passcode_Try_Again"           = "لم تتطابق رموز المرور. حاول مرة أخري.";
+"Passcode_Attempts_Left"       = "محاولات قبل القفل";
+"Passcode_Next"                = "التالى";
+
+
+"SSL_Info"  = "عند التمكين ، سوبر جلو سيثق بالخوادم التي تحمل شهادا موقعة ذاتيًا.يوصى استخدام هذه الخاصية للتنمية فقط.";
+"SSL_Trust" = "ثق في جميع يروتوكولات طبقة المقابس الآمنة (SSL)";
+
+
+"Log_Key_Username"    = "اسم المستخدم";
+"Log_Key_Created"     = "أنشئت";
+"Log_Key_Id_Provider" = "مزود الهوية";
+"Log_Key_Key_Handle"  = "مناور المفاتيح";
+
+
+"Keys_Info"       = "يتم إنشاء مفتاح خاص وفريد يخزن على جهازك في كل مرة تقوم فيها بتأمين حساب جديدباستخدام سوبر جلو.";
+"Keys_Text_Value" = "قيمة النص:";
+
+
+"Info_Delete_Key"           = "هل تريد حذف هذا المفتاح؟";
+"Info_Change_Name_How_To"   = "لتغيير اسم المفتاح ، استمر في الضغط عليه لمدة 3 ثوانٍ";
+"Info_Change_Name_Question" = "هل تريد تغيير اسم عرض هذا المفتاح؟";
+"Info_Duplicate_Name"       = "الاسم مكون سابقا أو فارغ. حاول مرة أخري.";
+"Info_Enter_Name"           = "إدخال اسم";
+"Info_Change_Name"          = "تغيير اسم المفتاح";
+"Info_Enter_New_Name"       = "أدخل اسمًا جديدًا لمفتاحك:";
+
+
+"Approve"             = "موافقة";
+"Deny"                = "رفض";
+"Permission_Approval" = "موافقة على الاذن";
+"Approving"           = "تم الموافقة...";
+"Denying"             = "بتم الرفض...";
+
+
+"Info"       = "معلومات";
+"Yes"        = "نعم";
+"No"         = "لا";
+"Delete"     = "حذف";
+"Clear_Log"  = "سجل نظيف";
+"Clear_Logs" = "مسح السجلات";
+"Close"      = "اغلاق";
+"Cancel"     = "إلغاء";
+"Save"       = "حفظ";
+"Oops"       = "ماذا حصل!";
+
+
+"Signed_In_To"             = "تم تسجيل الدخول إلى";
+"Auth_Failed_To"           = "فشل المصادقة ل";
+"Registered_To"            = "مسجل إلى";
+"Registration_Failed_To"   = "فشل التسجيل في";
+"Auth_Declined_To"         = "رفض المصادقة ل";
+"Registration_Declined_To" = "رفض التسجل ل";
+"Unknown_Error"            = "خطأ غير معروف";
+
+
+"Success!"             = "نجاح!";
+"Missing_Request_Info" = "معلومات الطلب مفقودة";
+
+
+"Unknown_Error_Something" = "خطأ غير معروف. هناك خطأ ما.";
+"Not_Allowed_Payment"     = "غير مسموح بالدفع";
+"Invalid_Purchase_Id"     = "معرف الشراء غير صحيح.";
+"Unallowed_Device"        = "لا يُسمح لهذا الجهاز بالدفع.";
+"Unavailable_Product"     = "المنتج غير متوفر في واجهة المتجر الحالية.";
+"Unallowed_Cloud_Access"  = "لا يُسمح بالوصول إلى علومات الخدمة السحابية.";
+"No_Network_Connection"   = "لا يمكن الاتصال بالشبكة.";
+
+
+"Enable_TouchID"                = "لتمكين معرف اللمس";
+"Identify_Yourself"             = "عرف عن نفسك!";
+"Identify_Verification_Problem" = "حدثت مشكلة في التحقق من هويتك.";
+"Cancel_Pressed"                = "لقد ضغطت إلغاء.";
+"Password_Pressed"              = "لقد ضغطت كلمة المرور.";
+"TouchID_Not_Configured"        = "لا يمكن تكوين معرف اللمس";
+
+
+"2_Attempts_Remaining"    = "بقي محاولتان قبل قفل التطبيق لمدة 10 دقائق";
+"Failed_Attempts_Warning" = "سيتم قفل التطبيق لمدة 10 دقائق بعد هذا العدد من المحاولات الفاشلة ";
+
+
+
+
+"Camera_Denied_Directions" =    "قم بتوفير الوصول إلى الكاميرا للمتابعة: \ n \ n1. انقر فوق الزر 'انتقال' لفتح الإعدادات. \ n \ n2. انقر فوق الخصوصية. \ n \ n3. تمكين الوصول إلى الكاميرا. \ n \ n4. افتح Super Gluu وحاول مرة أخرى ";
+"Camera_Access_Needed" =    "وصول الكاميرا اللازمة";
+"Go" =     "اذهب";
+
+"Unrecognized_QR" =    "رمز الاستجابة السريعة غير معروف. حاول مرة أخري.";
+"Unsopported_Fido" =    "نسخة FIDO غير مدعومة";
+"Failed_KeyHandles" =    "فشل KeyHandles";
+
+"Passcode" =    "رمز المرو";
+"History" =    "التاريخ";
+"Face_ID" =    "معرف الوجه";
+
+"Select_All" =    "اختر الكل";
+"Unselect_All" =    "إلغاء تحديد الكل";
+
+"Edit" =    "تعديل";
+
+"Error" =    "خطأ";
+"Ok" =    "حسنا";
+
+"Reset_Passcode" =    "إعادة تعيين رمز المرور";
+"Same_Passcode" =    "يجب أن يكون رمز المرور الجديد مختلفًا عن الرمز السابق.";
+"Pincode_Info" =    "عند التمكين ، سيتم حماية الوصول إلى Super Gluu بواسطة رمز مرور من اختيارك.";
+"Locked_App_Info" =    "سيتم قفل Super Gluu لمدة 10 دقائق بعد 5 محاولات فاشلة.";
+
+"Unable_To_Restore" =    "غير قادر على استعادة";
+"TOS" =    "شروط الخدمة";
+"Ad_Free_Promo" =    "انتقل بدون إعلانات 0.99 دولار شهريًا";
+"Restore_Subscription" =    "استعادة الاشتراك السابق.";
+"Purchase_Not_Found" =    "لم نتمكن من العثور على عملية شراء لاستعادتها.";
+
+"Signed_In" =    "تم تسجيل الدخول إلى";
+"Login_Failed" =    "أخفق تسجيل الدخول إلى";
+"Registered_To" =    "مسجل إلى";
+"Registration_Failed" =    "فشل التسجيل إلى";
+"Login_Declined" =    "تم رفضتم تسجيل الدخول إلى";
+;"تم رفض التسجيل إلى" = "Enroll_Declined"
+
+"Add_Secure_Entry" = "إضافة الدخول الآمن";
+"Yesterday" = "في الامس";
+"When_Enabled_FaceId" =  "عند التمكين ، سيتم حماية الوصول إلى Super Gluu بواسطة Face ID";
+
+
+"Registration" = "التسجيل";
+"Authentication" = "المصادقة";
+
+"To_Continue" = "للمتابعة ، انقر فوق موافق";

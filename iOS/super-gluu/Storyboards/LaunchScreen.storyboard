@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kza-Dn-QhU">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="YDx-y5-fDt">
+            <objects>
+                <viewController id="kza-Dn-QhU" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4rp-fT-cbG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lyr-Po-JSv">
+                                <rect key="frame" x="0.0" y="20" width="375" height="333.5"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gluu_logo" translatesAutoresizingMaskIntoConstraints="NO" id="72o-SU-1Ir">
+                                        <rect key="frame" x="107.5" y="87" width="160" height="160"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="160" id="EAn-10-Vzk"/>
+                                            <constraint firstAttribute="height" constant="160" id="Yhj-Ma-nlt"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="72o-SU-1Ir" firstAttribute="centerX" secondItem="lyr-Po-JSv" secondAttribute="centerX" id="Rzq-aV-64Z"/>
+                                    <constraint firstItem="72o-SU-1Ir" firstAttribute="centerY" secondItem="lyr-Po-JSv" secondAttribute="centerY" id="Yvf-3y-4t8"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="lyr-Po-JSv" firstAttribute="leading" secondItem="dnn-o9-gWA" secondAttribute="leading" id="8D6-sf-b5x"/>
+                            <constraint firstItem="dnn-o9-gWA" firstAttribute="trailing" secondItem="lyr-Po-JSv" secondAttribute="trailing" id="Dqs-6J-LGx"/>
+                            <constraint firstItem="lyr-Po-JSv" firstAttribute="top" secondItem="dnn-o9-gWA" secondAttribute="top" id="WBO-cY-WNG"/>
+                            <constraint firstItem="lyr-Po-JSv" firstAttribute="height" secondItem="4rp-fT-cbG" secondAttribute="height" multiplier="1:2" id="wIJ-9S-eX6"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dnn-o9-gWA"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pas-eF-dRq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="38" y="125"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="gluu_logo" width="122" height="140"/>
+    </resources>
+</document>
