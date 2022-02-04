@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Layout for swipe -->
+
+    <LinearLayout
+        android:id="@+id/delete_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:orientation="horizontal"
+        android:background="@android:color/transparent"
+        android:weightSum="1">
+
+        <RelativeLayout
+            android:id="@+id/swipe_show_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="#c0c0c0">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_visibility" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/swipe_delete_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="#f6000c">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_delete" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- Layout for Log Item -->
+
+    <RelativeLayout
+        android:id="@+id/log_main_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:orientation="horizontal"
+        android:background="@drawable/white_background_with_ripple">
+
+
+        <CheckBox
+            android:id="@+id/logCheckBox"
+            style="@android:style/Widget.DeviceDefault.CompoundButton.RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:buttonTint="@color/colorPrimary"
+            android:layout_centerVertical="true"
+            android:text="" />
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/log_image_view"
+            android:layout_toEndOf="@+id/logCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:src="@drawable/log_row_item_green_icon" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/log_image_view"
+            android:layout_toStartOf="@+id/right_caret"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="7dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/content_text_view"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="4dp"
+                tools:text="logText"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/created_date_text_view"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/light_grey_text"
+                tools:text="createdDate"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/right_caret"
+            android:src="@drawable/right_caret"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+</com.daimajia.swipe.SwipeLayout>

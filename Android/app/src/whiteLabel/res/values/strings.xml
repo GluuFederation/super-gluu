@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY appNameFull "White Label">
+    <!ENTITY appNameShort "Label">
+    ]>
+
+<resources>
+
+    <string name="app_name">&appNameFull;</string>
+    <string name="welcome">Welcome to &appNameFull;</string>
+    <string name="oxpush2_into_text">Open Source Mobile Authentication from &appNameShort;</string>
+    <string name="pin_code_text">When enabled, access to your &appNameFull; app will be protected by a pin code of your choice.</string>
+    <string name="fingerprint_protection_description">When enabled, access to your &appNameFull; app will be protected by fingerprint.</string>
+    <string name="pin_code_enable_question">Protect access to &appNameFull; by adding a pin code.</string>
+    <string name="text_keys">When you login with &appNameFull;, a private key is generated and stored on your phone.</string>
+    <string name="logs_list_description">Each time &appNameFull; is used, a transaction log is generated and recorded in your app.</string>
+    <string name="text_attempts">&appNameFull; will be locked for 10 minutes after 5 failed attempts.</string>
+    <string name="warning_trust_all_certificate">Enable this option only during development. When enabled, &appNameFull; will trust self-signed certificates.\n\nIf the certificate is signed by a certificate authority (CA) trust all should be disabled.</string>
+    <string name="push_title">&appNameFull;</string>
+    <string name="push_login_format">&appNameFull; login request to: %s</string>
+    <string name="channel_name">&appNameFull; Channel</string>
+    <string name="channel_description">&appNameFull; Authentication</string>
+
+    <string name="purchase_license_key"></string>
+    <string name="subscription_id"></string>
+
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_screen_gray"
+    android:clipChildren="false">
+
+    <ListView
+        android:layout_below="@+id/nav_drawer_toolbar"
+        android:id="@+id/keys_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/white"
+        android:divider="@color/grayColorLight"
+        android:dividerHeight="1dp"
+        android:scrollbars="none"
+        tools:ignore="UnknownIdInLayout" />
+
+    <include
+        layout="@layout/toolbar_nav_drawer"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/empty_keys_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:textColor="@color/dark_grey"
+        android:layout_below="@+id/keys_list_view"
+        android:layout_marginTop="36dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:text="@string/noKeys" />
+
+</RelativeLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_parent_id"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/actionBarSettings"
+        layout="@layout/custom_action_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="65dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="60dp"
+        android:background="@color/grayColorLight">
+
+        <Button
+            android:id="@+id/upgrate_ad_free_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/upgrate_ad_free"
+            android:textAllCaps="false"
+            android:textSize="17dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/restore_purchase_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/restore_subsc"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17dp" />
+
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/purchase_webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:scrollbars="vertical" />
+
+</LinearLayout>

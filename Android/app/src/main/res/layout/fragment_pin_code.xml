@@ -1,0 +1,67 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pinCodeGray">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/pinCodeGray">
+
+        <include
+            android:layout_alignParentTop="true"
+            layout="@layout/toolbar_nav_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_below="@+id/nav_drawer_toolbar"
+            android:id="@+id/enter_passcode_text_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="140dp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="UnknownIdInLayout" />
+
+        <org.gluu.super_gluu.util.PinEntryEditText
+            android:layout_below="@+id/enter_passcode_text_view"
+            android:id="@+id/pin_code_edit_text"
+            android:layout_width="240dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:digits="1234567890"
+            android:inputType="number"
+            android:cursorVisible="false"
+            android:maxLength="4"
+            app:pinLineColors="@android:color/transparent"
+            android:textIsSelectable="false"
+            app:pinAnimationType="none"
+            android:textSize="32sp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black"
+            app:pinRepeatedHint="\u2014"
+            app:pinCharacterMask="\u25CF"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/you_have_5_attempts_left"
+            android:id="@+id/attemptsLabel"
+            android:layout_marginTop="6dp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="12dp"
+            android:textSize="16sp"
+            android:layout_below="@+id/pin_code_edit_text"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+</ScrollView>

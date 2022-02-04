@@ -1,0 +1,156 @@
+buildscript {
+    repositories {
+        google()
+    }
+    dependencies {
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
+    }
+
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.crashlytics'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+android {
+    signingConfigs {
+        config {
+            keyAlias Gluu_Key_Alias
+            keyPassword Gluu_Key_Password
+            storeFile file(Gluu_Keystore_File_Location)
+            storePassword Gluu_Store_Password
+        }
+    }
+    compileSdkVersion 31
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId "gluu.org.super.gluu"
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 63
+        versionName "3.1.3"
+        multiDexEnabled true
+        signingConfig signingConfigs.config
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "VENDOR_CERTIFICATE_CERT", Gluu_Debug_Vendor_Cert
+            buildConfigField "String", "VENDOR_CERTIFICATE_PRIVATE_KEY", Gluu_Debug_Vendor_Certificate_Private_Key
+
+            buildConfigField "String", "OX_SERVER_CERT", "\"\""
+            buildConfigField "boolean", "TRUST_ALL_CERT", "false"
+
+            buildConfigField "String", "PROJECT_NUMBER", Gluu_Project_Number
+            buildConfigField "String", "INTERSTITIAL_AD_ID", Gluu_Release_Interstitial_Ad_Id
+            buildConfigField "String", "BANNER_AD_ID", Gluu_Release_Banner_Ad_Id
+            buildConfigField "String", "PURCHASE_LICENSE", Gluu_Purchase_License
+            buildConfigField "String", "SUBSCRIPTION_ID", Gluu_Subscription_Id
+            buildConfigField "String", "FINGERPRINT_NAME", Gluu_Fingerprint_Name
+        }
+        release {
+            buildConfigField "String", "VENDOR_CERTIFICATE_CERT", Gluu_Release_Vendor_Cert
+            buildConfigField "String", "VENDOR_CERTIFICATE_PRIVATE_KEY", Gluu_Release_Vendor_Certificate_Private_Key
+
+            buildConfigField "String", "OX_SERVER_CERT", "\"\""
+            buildConfigField "boolean", "TRUST_ALL_CERT", "false"
+
+            buildConfigField "String", "PROJECT_NUMBER", Gluu_Project_Number
+
+            buildConfigField "String", "INTERSTITIAL_AD_ID", Gluu_Debug_Interstitial_Ad_Id
+            buildConfigField "String", "BANNER_AD_ID", Gluu_Debug_Banner_Ad_Id
+            buildConfigField "String", "PURCHASE_LICENSE", Gluu_Purchase_License
+            buildConfigField "String", "SUBSCRIPTION_ID", Gluu_Subscription_Id
+            buildConfigField "String", "FINGERPRINT_NAME", Gluu_Fingerprint_Name
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "standard"
+
+    productFlavors {
+        gluu {
+            dimension "standard"
+            resValue "string", "versionNumber", "V" + defaultConfig.versionName
+        }
+        whiteLabel {
+            applicationId "com.whitelabel"
+            dimension "standard"
+            resValue "string", "versionNumber", "V1.0.0 - 1"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    //support libraries
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+
+    implementation 'commons-codec:commons-codec:1.10'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
+    implementation 'com.journeyapps:zxing-android-embedded:3.3.0@aar'
+    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'com.android.volley:volley:1.2.1'
+    //FCM instead of GMS
+    implementation "com.google.firebase:firebase-messaging:$play_services_version"
+    implementation "com.google.android.gms:play-services-gcm:17.0.0"
+    implementation "com.google.firebase:firebase-core:$play_services_version"
+    //For in app purchases
+    implementation 'com.anjlab.android.iab.v3:library:1.0.44'
+    //Circle progressBar
+    //For swipe gesture for table
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    //Butterknife for view injection
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+
+    // Lifecycles libraries
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.4.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:29.0.3')
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:29.0.3')
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics'
+
+    implementation 'com.google.firebase:firebase-installations:17.0.0'
+
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+}
+
+apply plugin: 'com.google.gms.google-services'
+// Apply the Crashlytics Gradle plugin
+apply plugin: 'com.google.firebase.crashlytics'

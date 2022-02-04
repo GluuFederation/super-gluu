@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="SuperGluu.app"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+
+    <!-- Creates a custom permission so only this app can receive its messages. -->
+    <permission android:name="${applicationId}.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
+    <uses-permission android:name="org.gluu.oxpush2.permission.C2D_MESSAGE" />
+
+    <!-- Permission to vibrate -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Permission to get working with camera -->
+    <!-- On Android M and above, use of these permissions is only requested at run time. -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!-- Permission to get working with fingerprints -->
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+
+    <!--For ia-purchases-->
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:name="org.gluu.super_gluu.app.GluuApplication"
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name">
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/push_icon" />
+
+        <activity
+            android:name="org.gluu.super_gluu.app.activities.EntryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashScreenTheme"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.gluu.super_gluu.app.activities.MainNavDrawerActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name">
+        </activity>
+
+        <activity
+            android:name="org.gluu.super_gluu.app.activities.CustomBarcodeScannerActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/barcode_scanner">
+        </activity>
+
+        <!--For FCM instead of GMS-->
+        <service
+            android:name="org.gluu.super_gluu.app.services.AppFirebaseInstanceIDService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="org.gluu.super_gluu.app.services.AppFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="6ec881e40cbfe8a33e0366f4be496dd827d2b801" />
+
+    </application>
+
+</manifest>
