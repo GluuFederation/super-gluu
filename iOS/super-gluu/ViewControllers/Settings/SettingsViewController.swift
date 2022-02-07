@@ -144,11 +144,13 @@ class SettingsViewController: UIViewController {
     // View Setup
     
     func setupDisplay() {
-        
         self.navigationItem.title = " "
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon_x"), style: .plain, target: self, action: #selector(dismissVC))
         
         view.backgroundColor = UIColor.Gluu.tableBackground
+
+        let version = AppInfo()?.version ?? "Unknown"
+        versionLabel.text = "v\(version)"
         
         tableView?.register( UINib(nibName: "SelectablePortraitView", bundle: nil), forCellReuseIdentifier: "SelectablePortraitView")
         
@@ -277,13 +279,11 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
+        60
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let item = dataItem(atIndexPath: indexPath)
-        
         self.performSegue(withIdentifier: item.segueId, sender: item)
     }
     
