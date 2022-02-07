@@ -165,17 +165,12 @@ public class U2FKeyImpl implements U2FKey {
         byte[] signature = keyPairGenerator.sign(signedData, keyPair.getPrivate());
 
         if (BuildConfig.DEBUG) Log.d(TAG, "-- Outputs Testing ESS crypto --");
-        String testText = "4xN3xdQ5l8akX7JBKYV2FrWf0tEwbnbsiIbv7ztz_d8";
         byte[] privateKeyData = keyPair.getPrivate().getEncoded();
         byte[] publicKeyData = keyPair.getPublic().getEncoded();
         if (BuildConfig.DEBUG) Log.d(TAG, "-- KeyPair Private key: " + Base64.encodeToString(privateKeyData, Base64.NO_WRAP));
         if (BuildConfig.DEBUG) Log.d(TAG, "-- KeyPair Private key in HEX: " + Utils.encodeHexString(privateKeyData));
         if (BuildConfig.DEBUG) Log.d(TAG, "-- KeyPair Public key: " + Base64.encodeToString(publicKeyData, Base64.NO_WRAP));
         if (BuildConfig.DEBUG) Log.d(TAG, "-- KeyPair Public key in HEX: " + Utils.encodeHexString(publicKeyData));
-        byte[] signatureTest = keyPairGenerator.sign(testText.getBytes(), keyPair.getPrivate());
-        if (BuildConfig.DEBUG) Log.d(TAG, "-- Outputs Testing ESS crypto --");
-        if (BuildConfig.DEBUG) Log.d(TAG, "-- signatureTest in ESS crypto: " + Utils.encodeHexString(signatureTest));
-        if (BuildConfig.DEBUG) Log.d(TAG, "-- End Outputs Testing ESS crypto --");
 
         if (BuildConfig.DEBUG) Log.d(TAG, "-- Outputs --");
         if (BuildConfig.DEBUG) Log.d(TAG, "userPresence: " + userPresence);
