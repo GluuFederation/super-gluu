@@ -15,4 +15,4 @@ To run iOS project:
 - open Terminal
 - run 'pod install' command
 - open '.workspace' file via xCode app
-- run 'Clear', 'Build' and 'Run' commands
+- run 'Clean', 'Build' and 'Run' commands
