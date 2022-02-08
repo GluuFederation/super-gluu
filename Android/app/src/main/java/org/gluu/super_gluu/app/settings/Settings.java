@@ -120,20 +120,6 @@ public class Settings {
         editor.commit();
     }
 
-    //todo delete both save accept and get accept if it is confirmed there is no plan to force user to accept license
-//    public static void saveAccept(Context context){
-//        SharedPreferences preferences = context.getSharedPreferences("IsAcceptLicense", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
-//        editor.putBoolean("isAccept", true);
-//        editor.commit();
-//    }
-//
-//    public static Boolean getAccept(Context context){
-//        SharedPreferences preferences = context.getSharedPreferences("IsAcceptLicense", Context.MODE_PRIVATE);
-//        Boolean isAccept = preferences.getBoolean("isAccept", false);
-//        return isAccept;
-//    }
-
     public static Boolean getFirstLoad(Context context){
         SharedPreferences preferences = context.getSharedPreferences(Constant.PIN_CODE_SETTINGS, Context.MODE_PRIVATE);
         Boolean isFirstLoad = preferences.getBoolean("isFirstLoad", false);
@@ -253,20 +239,6 @@ public class Settings {
         editor.apply();
     }
 
-    //For purchases
-    public static void setPurchase(Context context, Boolean isEnabled) {
-        SharedPreferences preferences = context.getSharedPreferences("PurchaseSettings", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("isPurchased", isEnabled);
-        editor.apply();
-    }
-
-    public static Boolean getPurchase(Context context){
-        SharedPreferences preferences = context.getSharedPreferences("PurchaseSettings", Context.MODE_PRIVATE);
-        Boolean isFingerprintEnabled = preferences.getBoolean("isPurchased", false);
-        return isFingerprintEnabled;
-    }
-
     public static void updateLicense(Context context, String licenseId, boolean isLicensed) {
         SharedPreferences licensePrefs = context.getSharedPreferences(Constant.LICENSE_SETTINGS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = licensePrefs.edit();
@@ -281,43 +253,7 @@ public class Settings {
         editor.apply();
     }
 
-    public static boolean isLicensed(Context context) {
-        SharedPreferences licensePrefs = context.getSharedPreferences(Constant.LICENSE_SETTINGS, Context.MODE_PRIVATE);
-        Map<String, ?> allLicenseEntries = licensePrefs.getAll();
-
-        if(allLicenseEntries.isEmpty()) {
-            return false;
-        }
-
-        for(Map.Entry<String, ?> entry : allLicenseEntries.entrySet()) {
-            Boolean licensed = licensePrefs.getBoolean(entry.getKey(), false);
-            if(licensed) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     //For actions bar menu
-    public static Boolean getIsSettingsMenuVisible(Context context){
-        SharedPreferences preferences = context.getSharedPreferences("CleanLogsSettings", Context.MODE_PRIVATE);
-        Boolean isVisible = preferences.getBoolean("isCleanButtonVisible", false);
-        return isVisible;
-    }
-
-    public static void setIsSettingsMenuVisible(Context context, Boolean isVisible){
-        SharedPreferences preferences = context.getSharedPreferences("CleanLogsSettings", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("isCleanButtonVisible", isVisible);
-        editor.apply();
-        editor.commit();
-    }
-
-    public static Boolean getIsBackButtonVisibleForKey(Context context){
-        SharedPreferences preferences = context.getSharedPreferences("CleanLogsSettings", Context.MODE_PRIVATE);
-        Boolean isVisible = preferences.getBoolean("isBackButtonVisibleForKey", false);
-        return isVisible;
-    }
 
     public static void setIsBackButtonVisibleForKey(Context context, Boolean isVsible){
         SharedPreferences preferences = context.getSharedPreferences("CleanLogsSettings", Context.MODE_PRIVATE);

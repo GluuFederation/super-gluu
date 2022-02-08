@@ -238,8 +238,6 @@ public class SoftwareDevice {
         String keyHandle = authRequest.getString(JSON_PROPERTY_KEY_HANDLE);
         byte[] resp = rawMessageCodec.encodeAuthenticateResponse(authenticateResponse);
 
-        String clientDataString = clientData.toString();
-
         JSONObject response = new JSONObject();
         response.put("signatureData", Utils.base64UrlEncode(resp));
         response.put("clientData", Utils.base64UrlEncode(authenticatedChallenge.getBytes(Charset.forName("ASCII"))));

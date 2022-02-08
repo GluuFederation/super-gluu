@@ -77,13 +77,6 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
     private SoftwareDevice u2f;
     private AndroidKeyDataStore dataStore;
 
-    public interface GluuAdListener {
-        void showInterstitialAd();
-        boolean areAdsDisabled();
-    }
-
-    GluuAdListener gluuAdListener;
-
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -148,12 +141,6 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
             oxPush2RequestListener = (OxPush2RequestListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
-        }
-
-        if (context instanceof GluuAdListener) {
-            gluuAdListener = (GluuAdListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement GluuAdListener");
         }
     }
 
@@ -227,27 +214,8 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
         gluuAlert.setHeader(titleMessageText.first);
         gluuAlert.setMessage(titleMessageText.second);
         gluuAlert.setPositiveText(getString(R.string.ok));
-        gluuAlert.setOnCancelListener(dialogInterface -> showInterstitialAd());
-        gluuAlert.setListener(new MainNavDrawerActivity.GluuAlertCallback() {
-            @Override
-            public void onPositiveButton() {
-                showInterstitialAd();
-            }
-
-            @Override
-            public void onNegativeButton() {
-            }
-        });
         gluuAlert.show();
     }
-
-    public void showInterstitialAd() {
-
-        if(!gluuAdListener.areAdsDisabled()) {
-            gluuAdListener.showInterstitialAd();
-        }
-    }
-
 
     private Pair<String, String> getTitleBasedOnMessage(int messageId) {
 

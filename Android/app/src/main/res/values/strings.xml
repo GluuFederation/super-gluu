@@ -151,11 +151,6 @@
 
     <string name="fingerprint_title">Fingerprint</string>
 
-    <string name="ad_free_text">Upgrade to ad free for $0.99/month</string>
-    <string name="ad_free_title">Upgrade Now!</string>
-    <string name="upgrate_ad_free">Upgrade to AD-Free</string>
-    <string name="restore_subsc">Restore Purchase</string>
-
     <string name="banner_ad_unit_id">ca-app-pub-3932761366188106/5255061278</string>
 
     <!--Strings for fingerprint-->
@@ -167,17 +162,11 @@
     <string name="fingerprint_description">Confirm fingerprint to continue</string>
     <string name="fingerprint_hint">Touch sensor</string>
     <string name="password_description">Enter your store password to continue</string>
-    <string name="purchase">Purchase</string>
-    <string name="purchase_not_invalidated">Purchase not invalidated</string>
-    <string name="purchase_button_not_invalidated_description">
-        You can proceed to purchase with this button \n even if a new fingerprint is enrolled
-    </string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again</string>
     <string name="fingerprint_success">Fingerprint recognized</string>
     <string name="item_title">White Mesh Pluto Backpack</string>
     <string name="item_price">$62.68</string>
     <string name="item_description">Mesh backpack in white. Black textile trim throughout.</string>
-    <string name="purchase_done">Purchase successful</string>
     <string name="new_fingerprint_enrolled_description">A new fingerprint was added to this device, so your password is required.</string>
     <string name="use_fingerprint_in_future">Use fingerprint in the future</string>
     <string name="use_fingerprint_to_authenticate_title">Use fingerprint to authenticate</string>

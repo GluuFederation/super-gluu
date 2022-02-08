@@ -104,12 +104,11 @@ public class FingerPrintManager {
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             throw new RuntimeException("Failed to get an instance of KeyGenerator", e);
         }
-        Cipher cipherNotInvalidated;
         try {
             defaultCipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
                     + KeyProperties.BLOCK_MODE_CBC + "/"
                     + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-            cipherNotInvalidated = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
+            Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
                     + KeyProperties.BLOCK_MODE_CBC + "/"
                     + KeyProperties.ENCRYPTION_PADDING_PKCS7);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
@@ -126,8 +125,6 @@ public class FingerPrintManager {
                     "Secure lock screen hasn't set up.\n"
                             + "Go to 'Settings -> Security -> Fingerprint' to set up a fingerprint",
                     Toast.LENGTH_LONG).show();
-//        purchaseButton.setEnabled(false);
-//        purchaseButtonNotInvalidated.setEnabled(false);
             return;
         }
 
@@ -136,7 +133,6 @@ public class FingerPrintManager {
         // The line below prevents the false positive inspection from Android Studio
         // noinspection ResourceType
         if (!fingerprintManager.hasEnrolledFingerprints()) {
-//        purchaseButton.setEnabled(false);
             // This happens when no fingerprints are registered.
             Toast.makeText(this.activity,
                     "Go to 'Settings -> Security -> Fingerprint' and register at least one fingerprint",
@@ -145,9 +141,6 @@ public class FingerPrintManager {
         }
         createKey(DEFAULT_KEY_NAME, true);
         createKey(KEY_NAME_NOT_INVALIDATED, false);
-//        purchaseButton.setEnabled(true);
-//        purchaseButton.setOnClickListener(
-//                new PurchaseButtonClickListener(defaultCipher, DEFAULT_KEY_NAME));
     }
 
     /**

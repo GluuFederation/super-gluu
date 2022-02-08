@@ -87,8 +87,7 @@ import butterknife.ButterKnife;
  */
 public class MainNavDrawerActivity extends BaseActivity
         implements OxPush2RequestListener, KeyHandleInfoFragment.OnDeleteKeyHandleListener,
-        PinCodeFragment.PinCodeViewListener, RequestDetailFragment.OnDeleteLogInfoListener,
-        HomeFragment.GluuAdListener {
+        PinCodeFragment.PinCodeViewListener, RequestDetailFragment.OnDeleteLogInfoListener {
 
     //region class variables
 
@@ -378,22 +377,6 @@ public class MainNavDrawerActivity extends BaseActivity
         dataStore.deleteLogs(logInfo);
         settings.setEditingModeLogs(false);
         reloadLogs();
-    }
-
-    @Override
-    public void showInterstitialAd() {
-//        if(interstitialAd == null) {
-//            setupInterstitialAd();
-//        } else if(interstitialAd.isLoaded()) {
-//            interstitialAd.show();
-//        }
-    }
-
-    @Override
-    public boolean areAdsDisabled() {
-        return !getResources().getBoolean(R.bool.adsEnabled) ||
-                Settings.isLicensed(context) ||
-                Settings.getPurchase(context);
     }
 
     @Override

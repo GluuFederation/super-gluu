@@ -50,12 +50,6 @@ android {
 
             buildConfigField "String", "OX_SERVER_CERT", "\"\""
             buildConfigField "boolean", "TRUST_ALL_CERT", "false"
-
-            buildConfigField "String", "PROJECT_NUMBER", Gluu_Project_Number
-            buildConfigField "String", "INTERSTITIAL_AD_ID", Gluu_Release_Interstitial_Ad_Id
-            buildConfigField "String", "BANNER_AD_ID", Gluu_Release_Banner_Ad_Id
-            buildConfigField "String", "PURCHASE_LICENSE", Gluu_Purchase_License
-            buildConfigField "String", "SUBSCRIPTION_ID", Gluu_Subscription_Id
             buildConfigField "String", "FINGERPRINT_NAME", Gluu_Fingerprint_Name
         }
         release {
@@ -64,13 +58,6 @@ android {
 
             buildConfigField "String", "OX_SERVER_CERT", "\"\""
             buildConfigField "boolean", "TRUST_ALL_CERT", "false"
-
-            buildConfigField "String", "PROJECT_NUMBER", Gluu_Project_Number
-
-            buildConfigField "String", "INTERSTITIAL_AD_ID", Gluu_Debug_Interstitial_Ad_Id
-            buildConfigField "String", "BANNER_AD_ID", Gluu_Debug_Banner_Ad_Id
-            buildConfigField "String", "PURCHASE_LICENSE", Gluu_Purchase_License
-            buildConfigField "String", "SUBSCRIPTION_ID", Gluu_Subscription_Id
             buildConfigField "String", "FINGERPRINT_NAME", Gluu_Fingerprint_Name
 
             minifyEnabled false
@@ -116,9 +103,6 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:$play_services_version"
     implementation "com.google.android.gms:play-services-gcm:17.0.0"
     implementation "com.google.firebase:firebase-core:$play_services_version"
-    //For in app purchases
-    implementation 'com.anjlab.android.iab.v3:library:1.0.44'
-    //Circle progressBar
     //For swipe gesture for table
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 
