@@ -111,21 +111,13 @@ Byte CHECK_ONLY = 0x07;
 
         [clientMutableData setObject:[authRequest valueForKey:JSON_PROPERTY_SERVER_CHALLENGE] forKey:JSON_PROPERTY_SERVER_CHALLENGE];
 
-        double fidoVersion = [u2fMetaData version].doubleValue;
-        // 2.0 == old implementation
-        if (fidoVersion == 2) {
-            [clientMutableData setObject:[u2fMetaData issuer] forKey:JSON_PROPERTY_SERVER_ORIGIN];
-        } else {
-            [clientMutableData setObject:[authRequest valueForKey:JSON_PROPERTY_APP_ID] forKey:JSON_PROPERTY_SERVER_ORIGIN];
-
-            NSData *clientData = [NSJSONSerialization dataWithJSONObject:clientMutableData options:NSJSONWritingPrettyPrinted error:nil];
-            challenge = [[NSString alloc] initWithData:clientData encoding:NSUTF8StringEncoding];
-        }
-
+        [clientMutableData setObject:[authRequest valueForKey:JSON_PROPERTY_APP_ID] forKey:JSON_PROPERTY_SERVER_ORIGIN];
         NSData *clientData = [NSJSONSerialization dataWithJSONObject:clientMutableData options:NSJSONWritingPrettyPrinted error:nil];
+        challenge = [[NSString alloc] initWithData:clientData encoding:NSUTF8StringEncoding];
+
         NSData* controlData = [[NSData alloc] initWithBytes:&USER_PRESENCE_SIGN length:1];
         __block BOOL isSucess = NO;
-
+        
         AuthenticateRequest* authenticateRequest = [[AuthenticateRequest alloc] initWithVersion:version control:controlData challenge:challenge application:appParam keyHandle:keyHandle];
 
         [_u2FKey handleAuthenticationRequest:authenticateRequest isSecureClick:isSecureClick userName: userName callback: ^(AuthenticateResponse *response, NSError *error){

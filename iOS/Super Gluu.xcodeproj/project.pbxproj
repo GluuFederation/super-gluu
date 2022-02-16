@@ -1291,7 +1291,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Super Gluu.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FLRS8NH8Y9;
 				ENABLE_BITCODE = NO;
@@ -1305,7 +1305,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACH_O_TYPE = mh_execute;
-				MARKETING_VERSION = 40.3.1;
+				MARKETING_VERSION = 40.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.gluu;
 				PRODUCT_NAME = "Super Gluu";
 				PROVISIONING_PROFILE = "";
@@ -1438,7 +1438,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FLRS8NH8Y9;
 				ENABLE_BITCODE = NO;
@@ -1452,7 +1452,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACH_O_TYPE = mh_execute;
-				MARKETING_VERSION = 40.3.1;
+				MARKETING_VERSION = 40.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.gluu;
 				PRODUCT_NAME = "Super Gluu";
 				PROVISIONING_PROFILE = "";
@@ -1475,7 +1475,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FLRS8NH8Y9;
 				ENABLE_BITCODE = NO;
@@ -1489,7 +1489,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACH_O_TYPE = mh_execute;
-				MARKETING_VERSION = 40.3.1;
+				MARKETING_VERSION = 40.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.gluu;
 				PRODUCT_NAME = "Super Gluu";
 				PROVISIONING_PROFILE = "";
