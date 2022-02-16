@@ -46,7 +46,7 @@ import butterknife.ButterKnife;
 public class RequestDetailFragment extends ToolbarFragment {
 
     //region class variables
-    SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+    SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private Boolean isUserInfo = false;
     private LogInfo logInfo;

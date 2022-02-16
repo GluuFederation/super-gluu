@@ -368,10 +368,6 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
     }
 
     private void handleResult(Boolean isDeny, TokenResponse tokenResponse, U2fOperationResult u2fOperationResult) {
-        if (!StringUtils.equals(tokenResponse.getChallenge(), u2fOperationResult.getChallenge())) {
-            setFinalStatus(R.string.challenge_doesnt_match);
-        }
-
         if (StringUtils.equals("success", u2fOperationResult.getStatus())) {
             LogInfo log = new LogInfo();
             log.setIssuer(oxPush2Request.getIssuer());

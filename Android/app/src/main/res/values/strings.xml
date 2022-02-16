@@ -22,7 +22,9 @@
     <string name="push_login_format">&appNameFull; login request to: %s</string>
     <string name="channel_name">&appNameFull; Channel</string>
     <string name="channel_description">&appNameFull; Authentication</string>
-
+    <!-- [START fcm_default_icon_string] -->
+    <string name="default_notification_channel_name" translatable="true">&appNameFull;</string>
+    <!-- [END fcm_default_icon_string] -->
 
     <string name="label_user_name">Username</string>
     <string name="label_authentication_method">Authentication Mode</string>

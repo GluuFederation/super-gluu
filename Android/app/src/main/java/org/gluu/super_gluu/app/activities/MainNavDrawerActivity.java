@@ -55,7 +55,7 @@ import org.gluu.super_gluu.app.fragment.SettingsFragment;
 import org.gluu.super_gluu.app.fragment.SettingsPinCode;
 import org.gluu.super_gluu.app.listener.OxPush2RequestListener;
 import org.gluu.super_gluu.app.model.LogInfo;
-import org.gluu.super_gluu.app.services.AppFirebaseInstanceIDService;
+import org.gluu.super_gluu.app.services.AppFirebaseMessagingService;
 import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.device.DeviceUuidManager;
 import org.gluu.super_gluu.model.OxPush2Request;
@@ -154,7 +154,7 @@ public class MainNavDrawerActivity extends BaseActivity
     };
 
     // For Push Notifications
-    private AppFirebaseInstanceIDService firebaseInstanceIDService = new AppFirebaseInstanceIDService();
+    private AppFirebaseMessagingService firebaseInstanceIDService = new AppFirebaseMessagingService();
 
     //endregion
 

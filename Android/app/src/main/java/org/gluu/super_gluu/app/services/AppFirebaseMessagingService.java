@@ -1,16 +1,26 @@
 package org.gluu.super_gluu.app.services;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
@@ -38,6 +48,25 @@ public class AppFirebaseMessagingService extends FirebaseMessagingService {
     public static final int DENY_TYPE = 20;
     public static final int NO_ACTION_TYPE = 30;
 
+    public void onTokenRefresh(Context context) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        Log.d(TAG, "Push notification token: " + token);
+
+                        // Save FCM token
+                        savePushRegistrationId(token, context);
+                    }
+                });
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -65,6 +94,21 @@ public class AppFirebaseMessagingService extends FirebaseMessagingService {
             }
 
         }
+    }
+
+    @Override
+    public void onNewToken(String token) {
+        super.onNewToken(token);
+        Log.e(TAG, "Push notification token: " + token);
+
+        savePushRegistrationId(token, getApplicationContext());
+    }
+
+    private void savePushRegistrationId(String pushNotificationToken, Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("pushNotificationToken", pushNotificationToken);
+        editor.commit();
     }
 
     private void sendNotification(String title, String message) {

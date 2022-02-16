@@ -163,7 +163,7 @@ public class SoftwareDevice {
 
         TokenResponse tokenResponse = new TokenResponse();
         tokenResponse.setResponse(response.toString());
-        tokenResponse.setChallenge(new String(challenge));
+        tokenResponse.setChallenge(challenge);
         tokenResponse.setKeyHandle(new String(enrollmentResponse.getKeyHandle()));
         tokenResponse.setDuplicate(isDuplicate);
 
@@ -209,19 +209,10 @@ public class SoftwareDevice {
             String version = authRequest.getString(JSON_PROPERTY_VERSION);
             String appParam = authRequest.getString(JSON_PROPERTY_APP_ID);
             byte[] keyHandle = Base64.decode(authRequest.getString(JSON_PROPERTY_KEY_HANDLE), Base64.URL_SAFE | Base64.NO_WRAP);
-            String challenge = authRequest.getString(JSON_PROPERTY_SERVER_CHALLENGE);
             clientData.put(JSON_PROPERTY_SERVER_CHALLENGE, authRequest.getString(JSON_PROPERTY_SERVER_CHALLENGE));
+            clientData.put(JSON_PROPERTY_SERVER_ORIGIN, authRequest.getString(JSON_PROPERTY_APP_ID));
 
-            String fidoVersion = u2fMetaData.getVersion();
-            Float ver = new Float(fidoVersion);
-
-            // 2.0 == old implementation
-            if (ver == 2) {
-                clientData.put(JSON_PROPERTY_SERVER_ORIGIN, u2fMetaData.getIssuer());
-            } else {
-                clientData.put(JSON_PROPERTY_SERVER_ORIGIN, authRequest.getString(JSON_PROPERTY_APP_ID));
-                challenge = clientData.toString();
-            }
+            String challenge = clientData.toString();
 
             authenticateResponse = u2fKey.authenticate(new AuthenticateRequest(version, AuthenticateRequest.USER_PRESENCE_SIGN, challenge, appParam, keyHandle));
             if (BuildConfig.DEBUG) Log.d(TAG, "Authentication response: " + authenticateResponse);
