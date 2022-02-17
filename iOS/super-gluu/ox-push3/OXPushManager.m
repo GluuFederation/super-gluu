@@ -191,9 +191,4 @@
     return userInfo;
 }
 
--(void)setDevicePushToken:(NSString*)devicePushToken{
-    [TokenDevice sharedInstance].deviceToken = devicePushToken;
-}
-
-
 @end

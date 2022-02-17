@@ -10,11 +10,14 @@
 
 @interface TokenDevice : NSObject
 
-@property (strong, nonatomic) NSString* deviceToken;
 @property (strong, nonatomic) NSString* deviceUUID;
+@property (nonatomic) BOOL deviceTokenRefreshed;
 
 + (instancetype) sharedInstance;
 
 -(NSData*)getTokenDeviceJSON;
+-(void)saveDevicePushToken:(NSString*)pushToken;
+-(NSString*)getPushToken;
+-(BOOL)isTokenDeviceRefreshed;
 
 @end

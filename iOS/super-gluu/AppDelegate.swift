@@ -148,7 +148,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         token = token.replacingOccurrences(of: "<", with: "")
         token = token.replacingOccurrences(of: ">", with: "")
         token = token.replacingOccurrences(of: " ", with: "")
-        TokenDevice.sharedInstance().deviceToken = token
+
+        // Check is token refreshed
+        let savedToken = TokenDevice.sharedInstance().getPushToken()
+        TokenDevice.sharedInstance().deviceTokenRefreshed = savedToken != token
+        // Save token
+        TokenDevice.sharedInstance().savePushToken(token)
         
         print("Token is: \(token)")
     }

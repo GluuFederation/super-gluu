@@ -21,12 +21,21 @@
     return instance;
 }
 
+-(void)saveDevicePushToken:(NSString*)pushToken{
+    [[NSUserDefaults standardUserDefaults] setValue:pushToken forKey:@"DEVICE_PUSH_TOKEN"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSLog(@"Saved Push Token");
+}
+
+-(NSString*)getPushToken{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:@"DEVICE_PUSH_TOKEN"];
+}
+
 -(NSData*)getTokenDeviceJSON{
     _deviceUUID = [self generateDeviceUUID];
     NSMutableDictionary* tokenDeviceDic = [[NSMutableDictionary alloc] init];
     [tokenDeviceDic setObject:_deviceUUID forKey:@"uuid"];
-    NSString* devicePushToken = _deviceToken != nil ? _deviceToken : @"";
-    [tokenDeviceDic setObject:devicePushToken forKey:@"push_token"];
+    [tokenDeviceDic setObject:[self getPushToken] forKey:@"push_token"];
     [tokenDeviceDic setObject:DEVICE_TYPE forKey:@"type"];
     [tokenDeviceDic setObject:OS_NAME forKey:@"platform"];
     [tokenDeviceDic setObject:[[UIDevice currentDevice] name] forKey:@"name"];
@@ -37,6 +46,10 @@
     NSData * jsonData = [NSJSONSerialization dataWithJSONObject:tokenDeviceDic options:0 error:&err];
     
     return jsonData;
+}
+
+-(BOOL)isTokenDeviceRefreshed{
+    return _deviceTokenRefreshed;
 }
 
 - (NSString*)generateDeviceUUID{
