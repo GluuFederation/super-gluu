@@ -15,7 +15,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.gluu.super_gluu.app.services.AppFirebaseInstanceIDService;
+import org.gluu.super_gluu.app.services.AppFirebaseMessagingService;
 import org.gluu.super_gluu.device.DeviceUuidManager;
 import org.gluu.super_gluu.model.OxPush2Request;
 import org.gluu.super_gluu.model.U2fMetaData;
@@ -141,25 +141,12 @@ public class SoftwareDevice {
         String clientDataString = clientData.toString();
         byte[] resp = rawMessageCodec.encodeRegisterResponse(enrollmentResponse);
 
-        String deviceType = getDeviceType();
-        String versionName = getVersionName();
-
-        DeviceData deviceData = new DeviceData();
-        deviceData.setUuid(DeviceUuidManager.getDeviceUuid(context).toString());
-        deviceData.setPushToken(new AppFirebaseInstanceIDService().getPushRegistrationId(this.context));
-        deviceData.setType(deviceType);
-        deviceData.setPlatform("android");
-        deviceData.setName(Build.MODEL);
-        deviceData.setOsName(versionName);
-        deviceData.setOsVersion(Build.VERSION.RELEASE);
-
-        String deviceDataString = new Gson().toJson(deviceData);
+        String deviceDataString = getDeviceData();
 
         JSONObject response = new JSONObject();
         response.put("registrationData", Utils.base64UrlEncode(resp));
         response.put("clientData", Utils.base64UrlEncode(clientDataString.getBytes(Charset.forName("ASCII"))));
         response.put("deviceData", Utils.base64UrlEncode(deviceDataString.getBytes(Charset.forName("ASCII"))));
-
 
         TokenResponse tokenResponse = new TokenResponse();
         tokenResponse.setResponse(response.toString());
@@ -170,7 +157,8 @@ public class SoftwareDevice {
         return tokenResponse;
     }
 
-    public TokenResponse sign(String jsonRequest, U2fMetaData u2fMetaData, Boolean isDeny) throws JSONException, U2FException {
+    public TokenResponse sign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny) throws JSONException, U2FException {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Starting to process u2fMetaData: " + u2fMetaData);
         if (BuildConfig.DEBUG) Log.d(TAG, "Starting to process sign request: " + jsonRequest);
         JSONObject request = (JSONObject) new JSONTokener(jsonRequest).nextValue();
 
@@ -214,7 +202,7 @@ public class SoftwareDevice {
 
             String challenge = clientData.toString();
 
-            authenticateResponse = u2fKey.authenticate(new AuthenticateRequest(version, AuthenticateRequest.USER_PRESENCE_SIGN, challenge, appParam, keyHandle));
+            authenticateResponse = u2fKey.authenticate(new AuthenticateRequest(version, AuthenticateRequest.USER_PRESENCE_SIGN, challenge, appParam, keyHandle, userName));
             if (BuildConfig.DEBUG) Log.d(TAG, "Authentication response: " + authenticateResponse);
             if (authenticateResponse != null) {
                 authenticatedChallenge = challenge;
@@ -233,6 +221,12 @@ public class SoftwareDevice {
         response.put("signatureData", Utils.base64UrlEncode(resp));
         response.put("clientData", Utils.base64UrlEncode(authenticatedChallenge.getBytes(Charset.forName("ASCII"))));
         response.put("keyHandle", keyHandle);
+
+        AppFirebaseMessagingService firebaseMessagingService = new AppFirebaseMessagingService();
+        if (firebaseMessagingService.getPushRegistrationIdRefreshed(context)) {
+            String deviceDataString = getDeviceData();
+            response.put("deviceData", Utils.base64UrlEncode(deviceDataString.getBytes(Charset.forName("ASCII"))));
+        }
 
         TokenResponse tokenResponse = new TokenResponse();
         tokenResponse.setResponse(response.toString());
@@ -283,5 +277,23 @@ public class SoftwareDevice {
         }
 
         return "unknown";
+    }
+
+    private String getDeviceData() {
+        String deviceType = getDeviceType();
+        String versionName = getVersionName();
+
+        DeviceData deviceData = new DeviceData();
+        deviceData.setUuid(DeviceUuidManager.getDeviceUuid(context).toString());
+        deviceData.setPushToken(new AppFirebaseMessagingService().getPushRegistrationId(this.context));
+        deviceData.setType(deviceType);
+        deviceData.setPlatform("android");
+        deviceData.setName(Build.MODEL);
+        deviceData.setOsName(versionName);
+        deviceData.setOsVersion(Build.VERSION.RELEASE);
+
+        String deviceDataString = new Gson().toJson(deviceData);
+
+        return deviceDataString;
     }
 }

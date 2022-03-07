@@ -99,13 +99,36 @@ public class AppFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
-        Log.e(TAG, "Push notification token: " + token);
+        Log.e(TAG, "New push notification token: " + token);
 
         savePushRegistrationId(token, getApplicationContext());
     }
 
-    private void savePushRegistrationId(String pushNotificationToken, Context context){
+    public String getPushRegistrationId(Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("pushNotificationToken", "");
+    }
+
+    public Boolean getPushRegistrationIdRefreshed(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getBoolean("pushNotificationTokenRefreshed", false);
+    }
+
+    public void savePushRegistrationIdRefreshed(Boolean isPushRefreshed, Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("pushNotificationTokenRefreshed", isPushRefreshed);
+        editor.commit();
+    }
+
+    private void savePushRegistrationId(String pushNotificationToken, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // Check is push token new
+        String savedPushNotificationToken = preferences.getString("pushNotificationToken", "");
+        boolean isPushRefreshed = !savedPushNotificationToken.equalsIgnoreCase(pushNotificationToken);
+        savePushRegistrationIdRefreshed(isPushRefreshed, context);
+
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("pushNotificationToken", pushNotificationToken);
         editor.commit();

@@ -64,13 +64,6 @@
         </activity>
 
         <!--For FCM instead of GMS-->
-<!--        <service-->
-<!--            android:name="org.gluu.super_gluu.app.services.AppFirebaseInstanceIDService"-->
-<!--            android:exported="false">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
-<!--            </intent-filter>-->
-<!--        </service>-->
         <!-- [START fcm_default_channel] -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
