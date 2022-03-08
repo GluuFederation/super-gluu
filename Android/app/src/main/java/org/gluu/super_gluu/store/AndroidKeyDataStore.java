@@ -89,6 +89,23 @@ public class AndroidKeyDataStore implements DataStore {
     }
 
     @Override
+    public TokenEntry getTokenEntry(String application, String userName) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Getting keyPair by application : " + application);
+
+        List<String> tokenArray = getTokenEntries();
+        for (String tokenString : tokenArray) {
+            TokenEntry token = new Gson().fromJson(tokenString, TokenEntry.class);
+            boolean isApplicationValid = token.getApplication().equalsIgnoreCase(application);
+            boolean isUserNameValid = token.getUserName().equalsIgnoreCase(userName);
+            if (isApplicationValid && isUserNameValid) {
+                return token;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public TokenEntry getTokenEntry(byte[] keyHandle) {
         String keyHandleKey = keyHandleToKey(keyHandle);
 

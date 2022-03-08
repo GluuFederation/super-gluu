@@ -25,7 +25,7 @@ public interface OxPush2RequestListener {
 
     void onQrRequest(OxPush2Request oxPush2Request);
 
-    TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, Boolean isDeny) throws JSONException, IOException, U2FException;
+    TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny) throws JSONException, IOException, U2FException;
 
     TokenResponse onEnroll(String jsonRequest, OxPush2Request oxPush2Request, Boolean isDeny) throws JSONException, IOException, U2FException;
 

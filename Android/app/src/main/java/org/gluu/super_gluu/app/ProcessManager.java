@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import org.apache.commons.codec.binary.StringUtils;
 import org.gluu.super_gluu.app.listener.OxPush2RequestListener;
 import org.gluu.super_gluu.app.model.LogInfo;
+import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.model.OxPush2Request;
 import org.gluu.super_gluu.model.U2fMetaData;
 import org.gluu.super_gluu.model.U2fOperationResult;
@@ -47,10 +48,6 @@ import SuperGluu.app.R;
  * Created by Yuriy Movchan on 01/07/2016.
  */
 public class ProcessManager {//extends Fragment implements View.OnClickListener {
-
-    SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-
-    SimpleDateFormat userDateTimeFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
 
     private static final String TAG = "process-fragment";
 
@@ -159,7 +156,7 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
         String oxPushCreated = oxPush2Request.getCreated();
         if (Utils.isNotEmpty(oxPushCreated)) {
             try {
-                createdDate = isoDateTimeFormat.parse(oxPushCreated);
+                createdDate = Settings.isoDateTimeFormat.parse(oxPushCreated);
             } catch (ParseException ex) {
                 Log.e(TAG, "Failed to parse ISO date/time: " + oxPushCreated, ex);
             }
@@ -319,7 +316,7 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
         if (isEnroll) {
             tokenResponse = oxPush2RequestListener.onEnroll(challengeJson, oxPush2Request, isDeny);
         } else {
-            tokenResponse = oxPush2RequestListener.onSign(challengeJson, u2fMetaData, isDeny);
+            tokenResponse = oxPush2RequestListener.onSign(challengeJson, u2fMetaData, oxPush2Request.getUserName(), isDeny);
         }
 
         if (tokenResponse == null) {

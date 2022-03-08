@@ -118,6 +118,7 @@ public class U2FKeyImpl implements U2FKey {
         byte control = authenticateRequest.getControl();
         String application = authenticateRequest.getApplication();
         String challenge = authenticateRequest.getChallenge();
+        String userName = authenticateRequest.getUserName();
         byte[] keyHandle = authenticateRequest.getKeyHandle();
 
         if (BuildConfig.DEBUG) Log.d(TAG, "-- Inputs --");
@@ -125,8 +126,9 @@ public class U2FKeyImpl implements U2FKey {
         if (BuildConfig.DEBUG) Log.d(TAG, "application: " + application);
         if (BuildConfig.DEBUG) Log.d(TAG, "challenge: " + challenge);
         if (BuildConfig.DEBUG) Log.d(TAG, "keyHandle: " + Utils.base64UrlEncode(keyHandle));
+        if (BuildConfig.DEBUG) Log.d(TAG, "userName: " + userName);
 
-        TokenEntry tokenEntry = dataStore.getTokenEntry(keyHandle);
+        TokenEntry tokenEntry = dataStore.getTokenEntry(application, userName);
 
         if (tokenEntry == null) {
             Log.e(TAG, "There is no keyPair for keyHandle: " + Utils.base64UrlEncode(keyHandle));

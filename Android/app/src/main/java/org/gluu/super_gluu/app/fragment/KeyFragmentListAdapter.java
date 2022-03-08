@@ -36,9 +36,6 @@ import SuperGluu.app.R;
  */
 public class KeyFragmentListAdapter extends BaseAdapter {
 
-    final SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-    final SimpleDateFormat userDateTimeFormat = new SimpleDateFormat("MMM d, yyyy HH:mm:ss");
-
     private List<TokenEntry> list;
     private LayoutInflater mInflater;
     private Activity activity;
@@ -102,7 +99,7 @@ public class KeyFragmentListAdapter extends BaseAdapter {
                 Date createDate = null;
                 if (Utils.isNotEmpty(date)) {
                     try {
-                        createDate = isoDateTimeFormat.parse(date);
+                        createDate = Settings.isoDateTimeFormat.parse(date);
                     } catch (ParseException ex) {
                         Log.e(this.getClass().getName(), "Failed to parse ISO date/time: " + date, ex);
                     }
@@ -110,7 +107,7 @@ public class KeyFragmentListAdapter extends BaseAdapter {
 
                 String createdString = "";
                 if (createDate != null) {
-                    createdString = userDateTimeFormat.format(createDate);
+                    createdString = Settings.userDateTimeFormat.format(createDate);
                 }
 
                 if(!createdString.isEmpty()) {

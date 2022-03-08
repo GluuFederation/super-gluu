@@ -350,9 +350,9 @@ public class MainNavDrawerActivity extends BaseActivity
     }
 
     @Override
-    public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, Boolean isDeny)
+    public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny)
             throws JSONException, IOException, U2FException {
-        return u2f.sign(jsonRequest, u2fMetaData, isDeny);
+        return u2f.sign(jsonRequest, u2fMetaData, userName, isDeny);
     }
 
     @Override
@@ -490,9 +490,9 @@ public class MainNavDrawerActivity extends BaseActivity
             }
 
             @Override
-            public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, Boolean isDeny)
+            public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny)
                     throws JSONException, IOException, U2FException {
-                return u2f.sign(jsonRequest, u2fMetaData, isDeny);
+                return u2f.sign(jsonRequest, u2fMetaData, userName, isDeny);
             }
 
             @Override

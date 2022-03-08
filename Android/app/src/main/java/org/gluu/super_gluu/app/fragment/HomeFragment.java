@@ -252,8 +252,8 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
             }
 
             @Override
-            public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, Boolean isDeny) throws JSONException, IOException, U2FException {
-                return u2f.sign(jsonRequest, u2fMetaData, isDeny);
+            public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny) throws JSONException, IOException, U2FException {
+                return u2f.sign(jsonRequest, u2fMetaData, userName, isDeny);
             }
 
             @Override

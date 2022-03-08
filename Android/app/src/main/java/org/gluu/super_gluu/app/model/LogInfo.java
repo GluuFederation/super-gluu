@@ -8,8 +8,6 @@ import org.gluu.super_gluu.u2f.v2.entry.Entry;
  */
 public class LogInfo extends Entry{//} implements Comparable<LogInfo> {
 
-//    SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-
     private String locationIP;
     private String locationAddress;
     private String message;

@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import org.gluu.super_gluu.app.NotificationType;
 import org.gluu.super_gluu.app.base.ToolbarFragment;
 import org.gluu.super_gluu.app.customview.CustomAlert;
+import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 
@@ -125,10 +126,9 @@ public class KeyFragmentListFragment extends ToolbarFragment {
         //Sort keys by created date
         List<TokenEntry> tokensFromDB = new ArrayList<TokenEntry>(tokens);
         Collections.sort(tokensFromDB, (key1, key2) -> {
-            SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
             try {
-                Date date1 = isoDateTimeFormat.parse(key1.getCreatedDate());
-                Date date2 = isoDateTimeFormat.parse(key2.getCreatedDate());
+                Date date1 = Settings.isoDateTimeFormat.parse(key1.getCreatedDate());
+                Date date2 = Settings.isoDateTimeFormat.parse(key2.getCreatedDate());
                 return date1.compareTo(date2);
             } catch (ParseException e) {
                 e.printStackTrace();

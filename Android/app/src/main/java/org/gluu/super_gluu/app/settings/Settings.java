@@ -7,6 +7,7 @@ import android.util.Log;
 
 import org.gluu.super_gluu.app.fragment.SettingsFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -16,6 +17,9 @@ import java.util.Map;
 public class Settings {
 
     private Boolean isEditingModeLogs = false;
+
+    public static SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    public static SimpleDateFormat userDateTimeFormat = new SimpleDateFormat("MMM d, yyyy HH:mm:ss");
 
     public static boolean isAuthEnabled(Context context) {
         return getFingerprintEnabled(context) || getPinCodeEnabled(context) || isAppLocked(context);

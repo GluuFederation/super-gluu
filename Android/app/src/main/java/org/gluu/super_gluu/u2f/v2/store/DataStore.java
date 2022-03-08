@@ -23,6 +23,8 @@ public interface DataStore {
 
     TokenEntry getTokenEntry(byte[] keyHandle);
 
+    TokenEntry getTokenEntry(String application, String userName);
+
     int incrementCounter(byte[] keyHandle);
 
     List<byte[]> getKeyHandlesByIssuerAndAppId(String application, String issuer);

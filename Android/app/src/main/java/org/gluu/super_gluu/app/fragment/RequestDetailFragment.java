@@ -24,6 +24,7 @@ import org.gluu.super_gluu.app.activities.MainNavDrawerActivity;
 import org.gluu.super_gluu.app.base.ToolbarFragment;
 import org.gluu.super_gluu.app.customview.CustomAlert;
 import org.gluu.super_gluu.app.model.LogInfo;
+import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.model.OxPush2Request;
 import org.gluu.super_gluu.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.util.Utils;
@@ -44,9 +45,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RequestDetailFragment extends ToolbarFragment {
-
-    //region class variables
-    SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private Boolean isUserInfo = false;
     private LogInfo logInfo;
@@ -257,7 +255,7 @@ public class RequestDetailFragment extends ToolbarFragment {
                 return userDateTimeFormat.format(resultdate);
             } else {
                 try {
-                    createdDate = isoDateTimeFormat.parse(dateString);
+                    createdDate = Settings.isoDateTimeFormat.parse(dateString);
                 } catch (ParseException ex) {
                     Log.e(this.getClass().getName(), "Failed to parse ISO date/time: " + dateString, ex);
                 }
@@ -280,7 +278,7 @@ public class RequestDetailFragment extends ToolbarFragment {
                 return userDateTimeFormat.format(resultdate);
             } else {
                 try {
-                    createdDate = isoDateTimeFormat.parse(dateString);
+                    createdDate = Settings.isoDateTimeFormat.parse(dateString);
                 } catch (ParseException ex) {
                     Log.e(this.getClass().getName(), "Failed to parse ISO date/time: " + dateString, ex);
                 }
