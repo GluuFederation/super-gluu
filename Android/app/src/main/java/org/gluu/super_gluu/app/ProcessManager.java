@@ -288,11 +288,7 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
     private U2fMetaData getU2fMetaData() throws IOException {
         // Request U2f meta data
         String discoveryUrl = oxPush2Request.getIssuer();
-        if (BuildConfig.DEBUG && discoveryUrl.contains(":8443")) {
-            discoveryUrl += "/oxauth/seam/resource/restv1/oxauth/fido-u2f-configuration";
-        } else {
-            discoveryUrl += "/.well-known/fido-u2f-configuration";
-        }
+        discoveryUrl += "/.well-known/fido-configuration";
 
         if (BuildConfig.DEBUG) Log.i(TAG, "Attempting to load U2F metadata from: " + discoveryUrl);
 

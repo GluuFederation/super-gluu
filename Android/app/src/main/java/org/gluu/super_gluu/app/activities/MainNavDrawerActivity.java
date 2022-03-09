@@ -62,6 +62,7 @@ import org.gluu.super_gluu.model.OxPush2Request;
 import org.gluu.super_gluu.model.U2fMetaData;
 import org.gluu.super_gluu.net.CommunicationService;
 import org.gluu.super_gluu.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.store.database.UserTokenEntryDatabase;
 import org.gluu.super_gluu.u2f.v2.SoftwareDevice;
 import org.gluu.super_gluu.u2f.v2.exception.U2FException;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
@@ -114,6 +115,7 @@ public class MainNavDrawerActivity extends BaseActivity
 
     private SoftwareDevice u2f;
     private AndroidKeyDataStore dataStore;
+    private UserTokenEntryDatabase database;
     private Context context;
 
     private FragmentManager fragmentManager;
@@ -184,6 +186,7 @@ public class MainNavDrawerActivity extends BaseActivity
         deviceUuidFactory.init(this);
 
         this.dataStore = new AndroidKeyDataStore(context);
+        this.database = UserTokenEntryDatabase.getInstance(context);
         this.u2f = new SoftwareDevice(this, dataStore);
 
         checkUserCameraPermission();
@@ -194,6 +197,9 @@ public class MainNavDrawerActivity extends BaseActivity
         setupInitialFragment();
 
         firebaseInstanceIDService.onTokenRefresh(this);
+
+        // Check migration status and start flow if needed
+        database.migrateDataIfNeeded();
     }
 
     @Override

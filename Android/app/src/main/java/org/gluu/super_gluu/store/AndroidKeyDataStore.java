@@ -39,7 +39,9 @@ public class AndroidKeyDataStore implements DataStore {
     private static final String U2F_KEY_PAIR_FILE = "u2f_key_pairs";
     private static final String U2F_KEY_COUNT_FILE = "u2f_key_counts";
     private static final String LOGS_STORE = "logs_store";
-    private static final String LOGS_KEY = "logs_key";
+
+    private static final String MIGRATION_STORE = "migration_store";
+    private static final String MIGRATION_KEY = "migration_key";
 
     private static final String TAG = "key-data-store";
     private final Context context;
@@ -68,7 +70,9 @@ public class AndroidKeyDataStore implements DataStore {
         List<String> tokens = getTokenEntries();
         for (String tokenStr : tokens){
             TokenEntry token = new Gson().fromJson(tokenStr, TokenEntry.class);
-            if (token.getUserName().equalsIgnoreCase(tokenEntry.getUserName())){//token.getIssuer().equalsIgnoreCase(tokenEntry.getIssuer()
+            boolean isNameEquals = token.getUserName().equalsIgnoreCase(tokenEntry.getUserName());
+            boolean isApplicationEquals = token.getApplication().equalsIgnoreCase(tokenEntry.getApplication());
+            if (isNameEquals && isApplicationEquals) {
                 isSave = false;
             }
         }
@@ -255,6 +259,18 @@ public class AndroidKeyDataStore implements DataStore {
 
     public byte[] keyToKeyHandle(String key) throws DecoderException {
         return Utils.decodeHexString(key);
+    }
+
+    //Migration
+    public Boolean getMigrationStatus() {
+        final SharedPreferences keySettings = context.getSharedPreferences(MIGRATION_STORE, Context.MODE_PRIVATE);
+
+        return keySettings.getBoolean(MIGRATION_KEY, false);
+    }
+
+    public void setMigrationStatus(Boolean status) {
+        final SharedPreferences keySettings = context.getSharedPreferences(MIGRATION_STORE, Context.MODE_PRIVATE);
+        keySettings.edit().putBoolean(MIGRATION_KEY, status).commit();
     }
 
     //Methods for logs
