@@ -153,7 +153,7 @@ public class U2FKeyImpl implements U2FKey {
             return null;
         }
 
-        int counter = dataStore.incrementCounter(keyHandle);
+        int counter = dataStore.incrementCounter(application, userName); // .incrementCounter(keyHandle);
         byte userPresence = userPresenceVerifier.verifyUserPresence();
         byte[] applicationSha256 = DigestUtils.sha256(application);
         byte[] challengeSha256 = DigestUtils.sha256(challenge);

@@ -29,7 +29,7 @@ android {
         applicationId "gluu.org.super.gluu"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 82
+        versionCode 84
         versionName "4.3.3"
         multiDexEnabled true
         signingConfig signingConfigs.config
@@ -68,7 +68,7 @@ android {
     productFlavors {
         gluu {
             dimension "standard"
-            resValue "string", "versionNumber", "V" + defaultConfig.versionName
+            resValue "string", "versionNumber", "V" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ")"
         }
         whiteLabel {
             applicationId "com.whitelabel"

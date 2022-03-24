@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 
+import java.util.Date;
 import java.util.Random;
 
 // NOTE: prevents a table from having two rows that contain the same set of values for the application and userName columns
@@ -14,7 +15,7 @@ import java.util.Random;
 public class UserTokenEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private int id;
 
     @ColumnInfo(name = "keyPair")
     private String keyPair;
@@ -41,10 +42,13 @@ public class UserTokenEntry {
     private String userName;
 
     @ColumnInfo(name = "createdDate")
-    private String createdDate;
+    private Date createdDate;
 
-    public UserTokenEntry(TokenEntry tokenEntry) {
-        this.id = new Random().nextLong();
+    @ColumnInfo(name = "counter")
+    private int counter;
+
+    public UserTokenEntry(TokenEntry tokenEntry, int counter) {
+        this.id = new Random().nextInt();
         this.keyPair = tokenEntry.getKeyPair();
         this.application = tokenEntry.getApplication();
         this.authenticationType = tokenEntry.getAuthenticationType();
@@ -53,9 +57,10 @@ public class UserTokenEntry {
         this.keyName = tokenEntry.getKeyName();
         this.issuer = tokenEntry.getIssuer();
         this.userName = tokenEntry.getUserName();
-        this.createdDate = tokenEntry.getCreatedDate();
+        this.createdDate = tokenEntry.getDate();
+        this.counter = counter;
     }
-    public UserTokenEntry(long id, String keyPair, String application, String authenticationType, String authenticationMode, byte[] keyHandle, String keyName, String issuer, String userName, String createdDate) {
+    public UserTokenEntry(int id, String keyPair, String application, String authenticationType, String authenticationMode, byte[] keyHandle, String keyName, String issuer, String userName, Date createdDate, int counter) {
         this.id = id;
         this.keyPair = keyPair;
         this.application = application;
@@ -66,9 +71,10 @@ public class UserTokenEntry {
         this.issuer = issuer;
         this.userName = userName;
         this.createdDate = createdDate;
+        this.counter = counter;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -104,7 +110,11 @@ public class UserTokenEntry {
         return userName;
     }
 
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
+    }
+
+    public int getCounter() {
+        return counter;
     }
 }

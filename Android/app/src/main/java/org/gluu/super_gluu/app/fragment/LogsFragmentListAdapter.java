@@ -20,8 +20,10 @@ import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.model.OxPush2Request;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import SuperGluu.app.R;
 
@@ -31,7 +33,7 @@ import SuperGluu.app.R;
 public class LogsFragmentListAdapter extends BaseAdapter {
 
     private List<LogInfo> list;
-    private List<LogInfo> selectedLogList = new ArrayList<>();
+    private HashSet<LogInfo> selectedLogList = new HashSet<>();
     private LayoutInflater mInflater;
     private LogsFragment.LogInfoListener mListener;
     private Activity activity;
@@ -148,10 +150,10 @@ public class LogsFragmentListAdapter extends BaseAdapter {
             }
         });
         String title = log.getIssuer();
-            String timeAgo = (String) DateUtils.getRelativeTimeSpanString(Long.valueOf(log.getCreatedDate()), System.currentTimeMillis(),
-                    DateUtils.MINUTE_IN_MILLIS);
-            TextView createdTime = view.findViewById(R.id.created_date_text_view);
-            createdTime.setText(timeAgo);
+        String timeAgo = (String) DateUtils.getRelativeTimeSpanString(log.getDate().getTime(), System.currentTimeMillis(),
+                DateUtils.MINUTE_IN_MILLIS);
+        TextView createdTime = view.findViewById(R.id.created_date_text_view);
+        createdTime.setText(timeAgo);
         switch (log.getLogState()){
             case LOGIN_SUCCESS:
                 title = "Logged in " + log.getIssuer();
@@ -254,7 +256,7 @@ public class LogsFragmentListAdapter extends BaseAdapter {
     }
 
     public List<LogInfo> getSelectedLogList(){
-        return selectedLogList;
+        return new ArrayList<>(selectedLogList);
     }
 
     public void selectAllLogs(){

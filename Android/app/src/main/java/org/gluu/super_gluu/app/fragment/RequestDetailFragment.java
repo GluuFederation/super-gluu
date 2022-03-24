@@ -26,7 +26,7 @@ import org.gluu.super_gluu.app.customview.CustomAlert;
 import org.gluu.super_gluu.app.model.LogInfo;
 import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.model.OxPush2Request;
-import org.gluu.super_gluu.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.u2f.v2.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.util.Utils;
 
 import java.io.UnsupportedEncodingException;
@@ -228,9 +228,7 @@ public class RequestDetailFragment extends ToolbarFragment {
                     Log.d(this.getClass().getName(), e.getLocalizedMessage());
                 }
             }
-            AndroidKeyDataStore dataStore = new AndroidKeyDataStore(getContext());
-            final List<byte[]> keyHandles = dataStore.getKeyHandlesByIssuerAndAppId(push2Request.getIssuer(), push2Request.getApp());
-            final boolean isEnroll = (keyHandles.size() == 0) || StringUtils.equals(push2Request.getMethod(), "enroll");
+
             eventTextView.setText(capitalize(push2Request.getMethod()));
             hourMinuteTextView.setText(getTimeFromString(push2Request.getCreated()));
             dateTextView.setText(getDateFromString(push2Request.getCreated()));

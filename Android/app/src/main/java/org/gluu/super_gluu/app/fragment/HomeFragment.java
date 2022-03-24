@@ -7,6 +7,7 @@
 package org.gluu.super_gluu.app.fragment;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +17,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.cardview.widget.CardView;
+
 import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
@@ -33,13 +34,12 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.gluu.super_gluu.app.ProcessManager;
 import org.gluu.super_gluu.app.activities.CustomBarcodeScannerActivity;
-import org.gluu.super_gluu.app.activities.MainNavDrawerActivity;
 import org.gluu.super_gluu.app.customview.CustomAlert;
 import org.gluu.super_gluu.app.customview.CustomToast;
 import org.gluu.super_gluu.app.listener.OxPush2RequestListener;
 import org.gluu.super_gluu.model.OxPush2Request;
 import org.gluu.super_gluu.model.U2fMetaData;
-import org.gluu.super_gluu.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.u2f.v2.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.u2f.v2.SoftwareDevice;
 import org.gluu.super_gluu.u2f.v2.exception.U2FException;
 import org.gluu.super_gluu.u2f.v2.model.TokenResponse;
@@ -97,8 +97,9 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
         ButterKnife.bind(this, view);
 
         context = view.getContext();
-        this.dataStore = new AndroidKeyDataStore(context);
-        this.u2f = new SoftwareDevice(getActivity(), dataStore);
+        Application application = getActivity().getApplication();
+        this.dataStore = new AndroidKeyDataStore(application);
+        this.u2f = new SoftwareDevice(application, dataStore);
 
         scanButton.setOnClickListener(scanView -> submit());
 

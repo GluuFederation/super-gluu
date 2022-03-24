@@ -19,12 +19,11 @@ import org.gluu.super_gluu.app.activities.MainNavDrawerActivity;
 import org.gluu.super_gluu.app.customview.CustomAlert;
 import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.model.OxPush2Request;
-import org.gluu.super_gluu.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.u2f.v2.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 import org.gluu.super_gluu.util.Utils;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +45,15 @@ public class KeyFragmentListAdapter extends BaseAdapter {
         this.activity = activity;
         mInflater = LayoutInflater.from(activity);
         mListener = keyHandleInfo;
+    }
+
+    public void setList(List<TokenEntry> listContact) {
+        list = listContact;
+        //Triggers the list update
+        notifyDataSetChanged();
+        if (mListener != null){
+            mListener.onUpdateList(list.size() == 0);
+        }
     }
 
     @Override
@@ -71,7 +79,6 @@ public class KeyFragmentListAdapter extends BaseAdapter {
             LayoutInflater inflater = mInflater;
             view = inflater.inflate(R.layout.fragment_key, null);
             holder = new ViewHolder();
-//            holder.textView = (TextView) convertView.findViewById(R.id.text);
             View swipeView = view.findViewById(R.id.swipe_menu_layout);
             swipeView.setTag(position);
             holder.deleteButton = swipeView.findViewById(R.id.swipe_delete_button);
@@ -85,7 +92,7 @@ public class KeyFragmentListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-//        view.setTag(position);
+
         final TokenEntry token = list.get(position);
         if (token != null) {
             TextView createdDateTextView = view.findViewById(R.id.created_dateKey);
@@ -138,7 +145,6 @@ public class KeyFragmentListAdapter extends BaseAdapter {
                 String tokenString = new Gson().toJson(list.get(position));
                 KeyHandleInfoFragment infoFragment = new KeyHandleInfoFragment().newInstance(tokenString);
                 if (mListener != null) {
-//                    Settings.setIsBackButtonVisible(activity.getApplicationContext(), true);
                     Settings.setIsBackButtonVisibleForKey(activity.getApplicationContext(), true);
                     mListener.onKeyHandleInfo(infoFragment);
                 }
@@ -158,8 +164,6 @@ public class KeyFragmentListAdapter extends BaseAdapter {
 
         final String item = token.getUserName();
         if (item != null) {
-
-//            holder.textView.setText(item);
             final View finalView = view;
             holder.deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -193,7 +197,6 @@ public class KeyFragmentListAdapter extends BaseAdapter {
                     String tokenString = new Gson().toJson(list.get(position));
                     KeyHandleInfoFragment infoFragment = new KeyHandleInfoFragment().newInstance(tokenString);
                     if (mListener != null) {
-//                    Settings.setIsBackButtonVisible(activity.getApplicationContext(), true);
                         Settings.setIsBackButtonVisibleForKey(activity.getApplicationContext(), true);
                         mListener.onKeyHandleInfo(infoFragment);
                     }
@@ -215,8 +218,7 @@ public class KeyFragmentListAdapter extends BaseAdapter {
         gluuAlert.setListener(new MainNavDrawerActivity.GluuAlertCallback() {
             @Override
             public void onPositiveButton() {
-                Context context = activity.getApplicationContext();
-                AndroidKeyDataStore dataStore = new AndroidKeyDataStore(context);
+                AndroidKeyDataStore dataStore = new AndroidKeyDataStore(activity.getApplication());
                 dataStore.changeKeyHandleName(tokenEntry, gluuAlert.getEnteredText());
                 updateResults(dataStore);
             }
@@ -234,7 +236,7 @@ public class KeyFragmentListAdapter extends BaseAdapter {
             @Override
             public void onPositiveButton() {
                 Context context = activity.getApplicationContext();
-                AndroidKeyDataStore dataStore = new AndroidKeyDataStore(context);
+                AndroidKeyDataStore dataStore = new AndroidKeyDataStore(activity.getApplication());
                 String uniqueLicenseId = OxPush2Request.getLicenseId(tokenEntry.getIssuer(), tokenEntry.getUserName());
                 Settings.removeLicense(context, uniqueLicenseId);
                 dataStore.deleteKeyHandle(tokenEntry);
@@ -256,14 +258,14 @@ public class KeyFragmentListAdapter extends BaseAdapter {
         gluuAlert.show();
     }
 
-    public void updateResults(AndroidKeyDataStore dataStore) {
-        List<String> tokensString = dataStore.getTokenEntries();
-        List<TokenEntry> tokens = new ArrayList<TokenEntry>();
-        for (String tokenString : tokensString){
-            TokenEntry token = new Gson().fromJson(tokenString, TokenEntry.class);
-            tokens.add(token);
-        }
-        list = tokens;
+    private void updateResults(AndroidKeyDataStore dataStore) {
+//        List<String> tokensString = dataStore.getTokenEntries();
+//        List<TokenEntry> tokens = new ArrayList<TokenEntry>();
+//        for (String tokenString : tokensString){
+//            TokenEntry token = new Gson().fromJson(tokenString, TokenEntry.class);
+//            tokens.add(token);
+//        }
+//        list = tokens;
         //Triggers the list update
         notifyDataSetChanged();
         if (mListener != null){

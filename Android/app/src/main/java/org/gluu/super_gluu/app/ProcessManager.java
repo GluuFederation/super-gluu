@@ -204,7 +204,7 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
 //                    dataStore = oxPush2RequestListener.onGetDataStore();
                         final List<byte[]> keyHandles = dataStore.getKeyHandlesByIssuerAndAppId(oxPush2Request.getIssuer(), oxPush2Request.getApp());
 
-                        final boolean isEnroll = StringUtils.equals(oxPush2Request.getMethod(), "enroll");//(keyHandles.size() == 0) ||
+                        final boolean isEnroll = StringUtils.equals(oxPush2Request.getMethod(), "enroll");
                         final String u2fEndpoint;
                         if (isEnroll) {
                             u2fEndpoint = u2fMetaData.getRegistrationEndpoint();
