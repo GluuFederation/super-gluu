@@ -28,6 +28,4 @@ public interface OxPush2RequestListener {
     TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny) throws JSONException, IOException, U2FException;
 
     TokenResponse onEnroll(String jsonRequest, OxPush2Request oxPush2Request, Boolean isDeny) throws JSONException, IOException, U2FException;
-
-    DataStore onGetDataStore();
 }

@@ -29,6 +29,8 @@ import org.gluu.super_gluu.u2f.v2.model.TokenResponse;
 import org.gluu.super_gluu.u2f.v2.store.DataStore;
 import org.gluu.super_gluu.util.Utils;
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,27 +49,17 @@ import SuperGluu.app.R;
  *
  * Created by Yuriy Movchan on 01/07/2016.
  */
-public class ProcessManager {//extends Fragment implements View.OnClickListener {
+public class ProcessManager {
 
     private static final String TAG = "process-fragment";
-
     private static final String ARG_PARAM1 = "oxPush2Request";
 
     private OxPush2Request oxPush2Request;
-
     private OxPush2RequestListener oxPush2RequestListener;
-
     private Activity activity;
-
     private DataStore dataStore;
 
     public ProcessManager() {}
-
-//    public ProcessManager(Activity activity, OxPush2Request oxPush2Request, OxPush2RequestListener oxPush2RequestListener) {
-//        this.activity = activity;
-//        this.oxPush2Request = oxPush2Request;
-//        this.oxPush2RequestListener = oxPush2RequestListener;
-//    }
 
     /**
      * Use this factory method to create a new instance of
@@ -75,91 +67,12 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
      *
      * @return A new instance of fragment ProcessManager.
      */
-//    public static ProcessManager newInstance(String oxPush2RequestJson) {
-//        ProcessManager fragment = new ProcessManager();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, oxPush2RequestJson);
-//        fragment.setArguments(args);
-//
-//        return fragment;
-//    }
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            String oxPush2RequestJson = getArguments().getString(ARG_PARAM1);
-//
-//            oxPush2Request = new Gson().fromJson(oxPush2RequestJson, OxPush2Request.class);
-//        }
-//    }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_approve_deny, container, false);
-//
-//        view.findViewById(R.id.button_approve).setOnClickListener(this);
-//        view.findViewById(R.id.button_deny).setOnClickListener(this);
-//
-//        updateRequestDetails(view);
-//
-//        return view;
-//    }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//    }
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OxPush2RequestListener) {
-//            oxPush2RequestListener = (OxPush2RequestListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()  + " must implement OxPush2RequestListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        oxPush2RequestListener = null;
-//    }
-//
-//    @Override
-//    public void onClick(View v) {
-//        if (oxPush2RequestListener == null) {
-//            return;
-//        }
-//
-//        switch(v.getId()){
-//            case R.id.button_approve:
-//                onOxPushRequest();
-//                break;
-//            case R.id.button_deny:
-//                onOxPushDeclineRequest();
-//                break;
-//        }
-//    }
     private void runOnUiThread(Runnable runnable) {
-//        Activity activity = getActivity();
         if (activity != null) {
             activity.runOnUiThread(runnable);
         } else {
             if (BuildConfig.DEBUG) Log.d(TAG, "Activity is null!");
-        }
-    }
-
-    private void updateRequestDetails(View view) {
-        Date createdDate = null;
-        String oxPushCreated = oxPush2Request.getCreated();
-        if (Utils.isNotEmpty(oxPushCreated)) {
-            try {
-                createdDate = Settings.isoDateTimeFormat.parse(oxPushCreated);
-            } catch (ParseException ex) {
-                Log.e(TAG, "Failed to parse ISO date/time: " + oxPushCreated, ex);
-            }
         }
     }
 
@@ -170,22 +83,7 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
         LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
     }
 
-    private void setErrorStatus(Exception ex) {
-//        ((TextView) getView().findViewById(R.id.status_text)).setText(ex.getMessage());
-//        getView().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
-    }
-
     public void onOxPushRequest(final Boolean isDeny) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (isDeny) {
-//                    setFinalStatus(R.string.process_deny_start);
-//                } else {
-//                    setFinalStatus(R.string.process_authentication_start);
-//                }
-//            }
-//        });
         if (oxPush2Request != null) {
             final boolean oneStep = Utils.isEmpty(oxPush2Request.getUserName());
 
@@ -195,91 +93,79 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
                 parameters.put("username", oxPush2Request.getUserName());
             }
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        final U2fMetaData u2fMetaData = getU2fMetaData();
+            new Thread(() -> {
+                try {
+                    final U2fMetaData u2fMetaData = getU2fMetaData();
+                    final List<byte[]> keyHandles = dataStore.getKeyHandlesByIssuerAndAppId(oxPush2Request.getIssuer(), oxPush2Request.getApp());
 
-//                    dataStore = oxPush2RequestListener.onGetDataStore();
-                        final List<byte[]> keyHandles = dataStore.getKeyHandlesByIssuerAndAppId(oxPush2Request.getIssuer(), oxPush2Request.getApp());
+                    final boolean isEnroll = StringUtils.equals(oxPush2Request.getMethod(), "enroll");
+                    final String u2fEndpoint;
+                    if (isEnroll) {
+                        u2fEndpoint = u2fMetaData.getRegistrationEndpoint();
+                        if (BuildConfig.DEBUG) Log.i(TAG, "Authentication method: enroll");
+                    } else {
+                        u2fEndpoint = u2fMetaData.getAuthenticationEndpoint();
+                        if (BuildConfig.DEBUG)
+                            Log.i(TAG, "Authentication method: authenticate");
+                    }
 
-                        final boolean isEnroll = StringUtils.equals(oxPush2Request.getMethod(), "enroll");
-                        final String u2fEndpoint;
-                        if (isEnroll) {
-                            u2fEndpoint = u2fMetaData.getRegistrationEndpoint();
-                            if (BuildConfig.DEBUG) Log.i(TAG, "Authentication method: enroll");
-                        } else {
-                            u2fEndpoint = u2fMetaData.getAuthenticationEndpoint();
-                            if (BuildConfig.DEBUG)
-                                Log.i(TAG, "Authentication method: authenticate");
-                        }
+                    //Check if we're using cred manager - in that case "state"== null and we should use "enrollment" parameter
+                    if (oxPush2Request.getState() == null){//using cred-manager
+                        parameters.put("enrollment_code", oxPush2Request.getEnrollment());
+                    } else {//using standard workflow
+                        //Check is old or new version of server
+                        String state_key = u2fEndpoint.contains("seam") ? "session_state" : "session_id";
+                        parameters.put(state_key, oxPush2Request.getState());
+                    }
 
-                        //Check if we're using cred manager - in that case "state"== null and we should use "enrollment" parameter
-                        if (oxPush2Request.getState() == null){//using cred-manager
-                            parameters.put("enrollment_code", oxPush2Request.getEnrollment());
-                        } else {//using standard workflow
-                            //Check is old or new version of server
-                            String state_key = u2fEndpoint.contains("seam") ? "session_state" : "session_id";
-                            parameters.put(state_key, oxPush2Request.getState());
-                        }
+                    final String challengeJsonResponse;
+                    if (oneStep && (keyHandles.size() > 0)) {
+                        // Try to get challenge using all keyHandles associated with issuer and application
 
-                        final String challengeJsonResponse;
-                        if (oneStep && (keyHandles.size() > 0)) {
-                            // Try to get challenge using all keyHandles associated with issuer and application
-
-                            String validChallengeJsonResponse = null;
-                            for (byte[] keyHandle : keyHandles) {
-                                parameters.put("keyhandle", Utils.base64UrlEncode(keyHandle));
-                                try {
-                                    validChallengeJsonResponse = CommunicationService.get(u2fEndpoint, parameters);
-                                    break;
-                                } catch (FileNotFoundException ex) {
-                                    Log.i(TAG, "Found invalid keyHandle: " + Utils.base64UrlEncode(keyHandle));
+                        String validChallengeJsonResponse = null;
+                        for (byte[] keyHandle : keyHandles) {
+                            parameters.put("keyhandle", Utils.base64UrlEncode(keyHandle));
+                            try {
+                                validChallengeJsonResponse = CommunicationService.get(u2fEndpoint, parameters);
+                                if (BuildConfig.DEBUG) {
+                                    JSONObject response = (JSONObject) new JSONTokener(validChallengeJsonResponse).nextValue();
+                                    Log.d(TAG, "Get U2F JSON response: " + response);
                                 }
+                                break;
+                            } catch (FileNotFoundException ex) {
+                                Log.i(TAG, "Found invalid keyHandle: " + Utils.base64UrlEncode(keyHandle));
                             }
-
-                            challengeJsonResponse = validChallengeJsonResponse;
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "Get U2F JSON response: " + challengeJsonResponse);
-
-                        } else {
-                            challengeJsonResponse = CommunicationService.get(u2fEndpoint, parameters);
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "Get U2F JSON response: " + challengeJsonResponse);
                         }
 
-                        if (Utils.isEmpty(challengeJsonResponse)) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    setFinalStatus(R.string.no_valid_key_handles);
-                                }
-                            });
-                        } else {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        onChallengeReceived(isEnroll, u2fMetaData, u2fEndpoint, challengeJsonResponse, isDeny);
-                                    } catch (Exception ex) {
-                                        Log.e(TAG, "Failed to process challengeJsonResponse: " + challengeJsonResponse, ex);
-                                        setFinalStatus(R.string.failed_process_challenge);
-                                        if (BuildConfig.DEBUG) setErrorStatus(ex);
-                                    }
-                                }
-                            });
+                        challengeJsonResponse = validChallengeJsonResponse;
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "Get U2F JSON response: " + challengeJsonResponse);
+
+                    } else {
+                        challengeJsonResponse = CommunicationService.get(u2fEndpoint, parameters);
+                        if (BuildConfig.DEBUG) {
+                            JSONObject response = (JSONObject) new JSONTokener(challengeJsonResponse).nextValue();
+                            Log.d(TAG, "Get U2F JSON response: " + response);
                         }
-                    } catch (final Exception ex) {
-                        Log.e(TAG, ex.getLocalizedMessage(), ex);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                setFinalStatus(R.string.wrong_u2f_metadata);
-                                if (BuildConfig.DEBUG) setErrorStatus(ex);
+                    }
+
+                    if (Utils.isEmpty(challengeJsonResponse)) {
+                        runOnUiThread(() -> setFinalStatus(R.string.no_valid_key_handles));
+                    } else {
+                        runOnUiThread(() -> {
+                            try {
+                                onChallengeReceived(isEnroll, u2fMetaData, u2fEndpoint, challengeJsonResponse, isDeny);
+                            } catch (Exception ex) {
+                                Log.e(TAG, "Failed to process challengeJsonResponse: " + challengeJsonResponse, ex);
+                                setFinalStatus(R.string.failed_process_challenge);
                             }
                         });
                     }
+                } catch (final Exception ex) {
+                    Log.e(TAG, ex.getLocalizedMessage(), ex);
+                    runOnUiThread(() -> {
+                        setFinalStatus(R.string.wrong_u2f_metadata);
+                    });
                 }
             }).start();
         }
@@ -301,13 +187,6 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
     }
 
     private void onChallengeReceived(boolean isEnroll, final U2fMetaData u2fMetaData, final String u2fEndpoint, final String challengeJson, final Boolean isDeny) throws IOException, JSONException, U2FException {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-//                ((TextView) getView().findViewById(R.id.status_text)).setText(R.string.process_u2f_request);
-            }
-        });
-
         final TokenResponse tokenResponse;
         if (isEnroll) {
             tokenResponse = oxPush2RequestListener.onEnroll(challengeJson, oxPush2Request, isDeny);
@@ -324,38 +203,28 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
         final Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("username", oxPush2Request.getUserName());
         parameters.put("tokenResponse", tokenResponse.getResponse());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    final String resultJsonResponse = CommunicationService.post(u2fEndpoint, parameters);
-                    if (BuildConfig.DEBUG) Log.i(TAG, "Get U2F JSON result response: " + resultJsonResponse);
+        new Thread(() -> {
+            try {
+                final String resultJsonResponse = CommunicationService.post(u2fEndpoint, parameters);
+                if (BuildConfig.DEBUG) Log.i(TAG, "Get U2F JSON result response: " + resultJsonResponse);
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                final U2fOperationResult u2fOperationResult = new Gson().fromJson(resultJsonResponse, U2fOperationResult.class);
-                                if (BuildConfig.DEBUG) Log.i(TAG, "Get U2f operation result: " + u2fOperationResult);
+                runOnUiThread(() -> {
+                    try {
+                        final U2fOperationResult u2fOperationResult = new Gson().fromJson(resultJsonResponse, U2fOperationResult.class);
+                        if (BuildConfig.DEBUG) Log.i(TAG, "Get U2f operation result: " + u2fOperationResult);
 
 
-                                handleResult(isDeny, tokenResponse, u2fOperationResult);
-                            } catch (Exception ex) {
-                                Log.e(TAG, "Failed to process resultJsonResponse: " + resultJsonResponse, ex);
-                                setFinalStatus(R.string.failed_process_status);
-                            }
-                        }
-                    });
-                } catch (final Exception ex) {
-                    Log.e(TAG, "Failed to send Fido U2F response", ex);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setFinalStatus(R.string.failed_process_response);
-                            if (BuildConfig.DEBUG) setErrorStatus(ex);
-                        }
-                    });
-                }
+                        handleResult(isDeny, tokenResponse, u2fOperationResult);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "Failed to process resultJsonResponse: " + resultJsonResponse, ex);
+                        setFinalStatus(R.string.failed_process_status);
+                    }
+                });
+            } catch (final Exception ex) {
+                Log.e(TAG, "Failed to send Fido U2F response", ex);
+                runOnUiThread(() -> {
+                    setFinalStatus(R.string.failed_process_response);
+                });
             }
         }).start();
     }

@@ -32,21 +32,13 @@ import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.gluu.super_gluu.app.ProcessManager;
 import org.gluu.super_gluu.app.activities.CustomBarcodeScannerActivity;
 import org.gluu.super_gluu.app.customview.CustomAlert;
 import org.gluu.super_gluu.app.customview.CustomToast;
 import org.gluu.super_gluu.app.listener.OxPush2RequestListener;
 import org.gluu.super_gluu.model.OxPush2Request;
-import org.gluu.super_gluu.model.U2fMetaData;
 import org.gluu.super_gluu.u2f.v2.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.u2f.v2.SoftwareDevice;
-import org.gluu.super_gluu.u2f.v2.exception.U2FException;
-import org.gluu.super_gluu.u2f.v2.model.TokenResponse;
-import org.gluu.super_gluu.u2f.v2.store.DataStore;
-import org.json.JSONException;
-
-import java.io.IOException;
 
 import SuperGluu.app.BuildConfig;
 import SuperGluu.app.R;
@@ -239,36 +231,6 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
             default:
                 return new Pair<>(getString(R.string.generic_auth_result), getString(messageId));
         }
-    }
-
-    private ProcessManager createProcessManager(OxPush2Request oxPush2Request){
-        ProcessManager processManager = new ProcessManager();
-        processManager.setOxPush2Request(oxPush2Request);
-        processManager.setDataStore(dataStore);
-        processManager.setActivity(getActivity());
-        processManager.setOxPush2RequestListener(new OxPush2RequestListener() {
-            @Override
-            public void onQrRequest(OxPush2Request oxPush2Request) {
-                //skip code there
-            }
-
-            @Override
-            public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny) throws JSONException, IOException, U2FException {
-                return u2f.sign(jsonRequest, u2fMetaData, userName, isDeny);
-            }
-
-            @Override
-            public TokenResponse onEnroll(String jsonRequest, OxPush2Request oxPush2Request, Boolean isDeny) throws JSONException, IOException, U2FException {
-                return u2f.enroll(jsonRequest, oxPush2Request, isDeny);
-            }
-
-            @Override
-            public DataStore onGetDataStore() {
-                return dataStore;
-            }
-        });
-
-        return processManager;
     }
 
     private static boolean isConnected(final Context context) {

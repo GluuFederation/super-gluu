@@ -82,6 +82,7 @@ public class CommunicationService {
     }
 
     public static String post(String baseUrl, Map<String, String> params) throws IOException {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Attempting to execute post with baseUrl: " + baseUrl);
         if (BuildConfig.DEBUG) Log.d(TAG, "Attempting to execute post with parameters: " + params);
 
         HttpURLConnection connection = null;
@@ -92,7 +93,7 @@ public class CommunicationService {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-            connection.setRequestProperty("Content-Length", "" + Integer.toString(urlParameters.getBytes().length));
+            connection.setRequestProperty("Content-Length", "" + urlParameters.getBytes().length);
 
             connection.setUseCaches(false);
             connection.setDoInput(true);

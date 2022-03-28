@@ -347,9 +347,6 @@ public class MainNavDrawerActivity extends BaseActivity
         }
     }
 
-    //endregion
-
-    //region interface implementations
     @Override
     public void onQrRequest(final OxPush2Request oxPush2Request) {
         if (!this.isDestroyed()) {
@@ -359,19 +356,14 @@ public class MainNavDrawerActivity extends BaseActivity
 
     @Override
     public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny)
-            throws JSONException, IOException, U2FException {
+            throws JSONException, U2FException {
         return u2f.sign(jsonRequest, u2fMetaData, userName, isDeny);
     }
 
     @Override
     public TokenResponse onEnroll(String jsonRequest, OxPush2Request oxPush2Request, Boolean isDeny)
-            throws JSONException, IOException, U2FException {
+            throws JSONException, U2FException {
         return u2f.enroll(jsonRequest, oxPush2Request, isDeny);
-    }
-
-    @Override
-    public DataStore onGetDataStore() {
-        return dataStore;
     }
 
     @Override
@@ -501,19 +493,14 @@ public class MainNavDrawerActivity extends BaseActivity
 
             @Override
             public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny)
-                    throws JSONException, IOException, U2FException {
+                    throws JSONException, U2FException {
                 return u2f.sign(jsonRequest, u2fMetaData, userName, isDeny);
             }
 
             @Override
             public TokenResponse onEnroll(String jsonRequest, OxPush2Request oxPush2Request, Boolean isDeny)
-                    throws JSONException, IOException, U2FException {
+                    throws JSONException, U2FException {
                 return u2f.enroll(jsonRequest, oxPush2Request, isDeny);
-            }
-
-            @Override
-            public DataStore onGetDataStore() {
-                return dataStore;
             }
         });
 
