@@ -41,8 +41,7 @@ public class Entry {
         try {
             return Settings.isoDateTimeFormat.parse(createdDate);
         } catch (ParseException e) {
-            e.printStackTrace();
-            return new Date();
+            return new Date(Long.valueOf(createdDate));
         }
     }
 

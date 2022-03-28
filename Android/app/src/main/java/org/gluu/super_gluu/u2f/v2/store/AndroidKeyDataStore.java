@@ -360,31 +360,6 @@ public class AndroidKeyDataStore implements DataStore {
         final SharedPreferences logSettings = context.getSharedPreferences(LOGS_STORE, Context.MODE_PRIVATE);
         logSettings.edit().clear().commit();
     }
-
-    @Override
-    public void deleteLogs(OxPush2Request... logInfo) {
-        if (isDataBaseUsage) {
-            this.deleteLogs(logInfo);
-            return;
-        }
-
-        List<LogInfo> logsFromDB = this.getLogs();
-        Iterator<LogInfo> iter = logsFromDB.iterator();
-        for (OxPush2Request oxPush2Request : logInfo){
-            while (iter.hasNext()) {
-                LogInfo logInf = iter.next();
-                if (oxPush2Request.getCreated().equalsIgnoreCase(logInf.getCreatedDate())) {
-                    iter.remove();
-                }
-            }
-        }
-        logsFromDB.removeAll(Arrays.asList(logInfo));
-        this.deleteLogs();
-        for (LogInfo logInf : logsFromDB){
-            this.saveLog(logInf);
-        }
-    }
-
     @Override
     public void deleteLogs(List<LogInfo> logInfoList, LifecycleOwner lifecycleOwner) {
         if (isDataBaseUsage) {
@@ -423,9 +398,6 @@ public class AndroidKeyDataStore implements DataStore {
 
     // Method for migration all data from SharedPreferences to Database
     public void migrateDataIfNeeded() {
-        int random = new Random().nextInt();
-        LogInfo testLogInfo = new LogInfo("issuer" + random, "userName" + random, "locationIP", "locationAddress", Settings.isoDateTimeFormat.format(new Date()), LogState.LOGIN_SUCCESS, "authentication");
-        saveLog(testLogInfo);
         // Migration flow:
         // 1. Check were all data migrated or not yet
         boolean isMigrationAlreadyDone = getMigrationStatus();

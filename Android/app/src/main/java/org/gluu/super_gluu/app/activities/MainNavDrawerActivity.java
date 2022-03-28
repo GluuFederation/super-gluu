@@ -68,10 +68,13 @@ import org.gluu.super_gluu.u2f.v2.exception.U2FException;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 import org.gluu.super_gluu.u2f.v2.model.TokenResponse;
 import org.gluu.super_gluu.u2f.v2.store.DataStore;
+import org.gluu.super_gluu.util.ArrayUtils;
 import org.gluu.super_gluu.util.Utils;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -372,8 +375,10 @@ public class MainNavDrawerActivity extends BaseActivity
     }
 
     @Override
-    public void onDeleteLogInfo(OxPush2Request oxPush2Request) {
-        dataStore.deleteLogs(oxPush2Request);
+    public void onDeleteLogInfo(LogInfo logInfo) {
+        List<LogInfo> logInfoList = new ArrayList<>();
+        logInfoList.add(logInfo);
+        dataStore.deleteLogs(logInfoList, this);
         onBackButtonClicked();
     }
 

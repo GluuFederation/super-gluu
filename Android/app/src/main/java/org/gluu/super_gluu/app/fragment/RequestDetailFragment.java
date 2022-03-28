@@ -110,7 +110,7 @@ public class RequestDetailFragment extends ToolbarFragment {
     }
 
     public interface OnDeleteLogInfoListener {
-        void onDeleteLogInfo(OxPush2Request oxPush2Request);
+        void onDeleteLogInfo(LogInfo logInfo);
         void onDeleteLogInfo(List<LogInfo> logInfos);
     }
     //endregion
@@ -249,7 +249,12 @@ public class RequestDetailFragment extends ToolbarFragment {
         Date createdDate = null;
         if (Utils.isNotEmpty(dateString)) {
             if (isUserInfo){
-                Date resultdate = new Date(Long.valueOf(dateString));
+                Date resultdate = null;
+                try {
+                    resultdate = Settings.isoDateTimeFormat.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 return userDateTimeFormat.format(resultdate);
             } else {
                 try {
@@ -272,7 +277,12 @@ public class RequestDetailFragment extends ToolbarFragment {
         Date createdDate = null;
         if (Utils.isNotEmpty(dateString)) {
             if (isUserInfo){
-                Date resultdate = new Date(Long.valueOf(dateString));
+                Date resultdate = null;
+                try {
+                    resultdate = Settings.isoDateTimeFormat.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 return userDateTimeFormat.format(resultdate);
             } else {
                 try {
@@ -305,7 +315,7 @@ public class RequestDetailFragment extends ToolbarFragment {
             @Override
             public void onPositiveButton() {
                 if (deleteLogListener != null){
-                    deleteLogListener.onDeleteLogInfo(push2Request);
+                    deleteLogListener.onDeleteLogInfo(logInfo);
                 }
             }
 

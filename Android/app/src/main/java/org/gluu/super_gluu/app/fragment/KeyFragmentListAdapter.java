@@ -211,6 +211,7 @@ public class KeyFragmentListAdapter extends BaseAdapter {
         final CustomAlert gluuAlert = new CustomAlert(activity);
         gluuAlert.setHeader(activity.getApplicationContext().getString(R.string.new_key_name_title));
         gluuAlert.setMessage(activity.getApplicationContext().getString(R.string.enter_new_key_name));
+        gluuAlert.setText(tokenEntry.getKeyName());
         gluuAlert.setPositiveText(activity.getApplicationContext().getString(R.string.save));
         gluuAlert.setNegativeText(activity.getApplicationContext().getString(R.string.cancel));
         gluuAlert.setIsTextView(true);

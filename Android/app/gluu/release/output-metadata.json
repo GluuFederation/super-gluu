@@ -11,7 +11,7 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 83,
+      "versionCode": 86,
       "versionName": "4.3.3",
       "outputFile": "app-gluu-release.apk"
     }

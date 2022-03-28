@@ -43,7 +43,7 @@ public class TokenEntry extends Entry {
         this.authenticationType = userTokenEntry.getAuthenticationType();
         this.authenticationMode = userTokenEntry.getAuthenticationMode();
         this.keyHandle = userTokenEntry.getKeyHandle();
-        this.keyName = userTokenEntry.getUserName();
+        this.keyName = userTokenEntry.getKeyName();
     }
 
     public String getKeyPair() {

@@ -39,7 +39,6 @@ public interface DataStore {
     LiveData<List<LogInfoEntry>> getLogEntity();
     List<LogInfo>getLogs();
     void deleteLogs();
-    void deleteLogs(OxPush2Request... logInfo);
     void deleteLogs(List<LogInfo> logInfo, LifecycleOwner lifecycleOwner);
     void changeKeyHandleName(TokenEntry tokenEntry, String newName);
     void deleteKeyHandle(TokenEntry tokenEntry);
