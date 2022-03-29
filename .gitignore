@@ -58,4 +58,5 @@ buck-out/
 *.jsbundle
 
 # CocoaPods
+ios/Pods/
 react-native/ios/Pods/
