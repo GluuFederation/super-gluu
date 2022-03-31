@@ -16,3 +16,13 @@ To run iOS project:
 - run 'pod install' command
 - open '.workspace' file via xCode app
 - run 'Clean', 'Build' and 'Run' commands
+
+# React Native App
+To run React Native project:
+- navigate to 'react-native' folder
+- open Terminal
+- run 'npm install' command
+- run 'pod install' command
+- Navigate back using "cd../"
+- use npm run android to run app on android
+- use npm run ios to run app on iOS
