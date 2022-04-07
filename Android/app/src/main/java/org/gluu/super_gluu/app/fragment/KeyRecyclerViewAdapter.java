@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.gluu.super_gluu.app.model.KeyContent.KeyItem;
+import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 
 import java.text.ParseException;
@@ -31,9 +32,6 @@ import SuperGluu.app.R;
  * TODO: Replace the implementation with code for your data type.
  */
 public class KeyRecyclerViewAdapter extends ArrayAdapter {
-
-    final SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-    final SimpleDateFormat userDateTimeFormat = new SimpleDateFormat("MMM d, yyyy HH:mm:ss");
 
     private final Activity mActivity;
     private final List mValues;
@@ -68,12 +66,12 @@ public class KeyRecyclerViewAdapter extends ArrayAdapter {
             if (createdDate != null && token.getCreatedDate() != null) {
                 Date date = null;
                 try {
-                    date = isoDateTimeFormat.parse(token.getCreatedDate());
+                    date = Settings.isoDateTimeFormat.parse(token.getCreatedDate());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 if (date != null) {
-                    String pairingDate = userDateTimeFormat.format(date);
+                    String pairingDate = Settings.userDateTimeFormat.format(date);
                     createdDate.setText(pairingDate);
                 }
             } else {
