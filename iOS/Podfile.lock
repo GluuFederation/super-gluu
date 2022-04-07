@@ -1,0 +1,106 @@
+PODS:
+  - AFNetworking (2.7.0):
+    - AFNetworking/NSURLConnection (= 2.7.0)
+    - AFNetworking/NSURLSession (= 2.7.0)
+    - AFNetworking/Reachability (= 2.7.0)
+    - AFNetworking/Security (= 2.7.0)
+    - AFNetworking/Serialization (= 2.7.0)
+    - AFNetworking/UIKit (= 2.7.0)
+  - AFNetworking/NSURLConnection (2.7.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.7.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.7.0)
+  - AFNetworking/Security (2.7.0)
+  - AFNetworking/Serialization (2.7.0)
+  - AFNetworking/UIKit (2.7.0):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Google-Mobile-Ads-SDK (7.63.0):
+    - GoogleAppMeasurement (~> 6.0)
+  - GoogleAppMeasurement (6.9.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
+    - GoogleUtilities/MethodSwizzler (~> 6.7)
+    - GoogleUtilities/Network (~> 6.7)
+    - "GoogleUtilities/NSData+zlib (~> 6.7)"
+    - nanopb (~> 1.30906.0)
+  - GoogleUtilities/AppDelegateSwizzler (6.7.2):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.7.2):
+    - PromisesObjC (~> 1.2)
+  - GoogleUtilities/Logger (6.7.2):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (6.7.2):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (6.7.2):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.7.2)"
+  - GoogleUtilities/Reachability (6.7.2):
+    - GoogleUtilities/Logger
+  - nanopb (1.30906.0):
+    - nanopb/decode (= 1.30906.0)
+    - nanopb/encode (= 1.30906.0)
+  - nanopb/decode (1.30906.0)
+  - nanopb/encode (1.30906.0)
+  - NSHash (1.1.0)
+  - PromisesObjC (1.2.10)
+  - QRCodeReader.swift (9.0.1)
+  - SCLAlertView (0.8.1)
+  - SwiftyStoreKit (0.16.1)
+  - SWTableViewCell (0.3.7)
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.5)
+  - Google-Mobile-Ads-SDK
+  - NSHash (~> 1.1.0)
+  - QRCodeReader.swift (~> 9.0.1)
+  - SCLAlertView (from `https://github.com/soulfoodz/SCLAlertView-Swift.git`)
+  - SwiftyStoreKit (~> 0.11)
+  - SWTableViewCell (~> 0.3.7)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AFNetworking
+    - Google-Mobile-Ads-SDK
+    - GoogleAppMeasurement
+    - GoogleUtilities
+    - nanopb
+    - NSHash
+    - PromisesObjC
+    - QRCodeReader.swift
+    - SwiftyStoreKit
+    - SWTableViewCell
+
+EXTERNAL SOURCES:
+  SCLAlertView:
+    :git: https://github.com/soulfoodz/SCLAlertView-Swift.git
+
+CHECKOUT OPTIONS:
+  SCLAlertView:
+    :commit: 9c9ae8480b49ed5d249e60f59a19c79ec0fb6d28
+    :git: https://github.com/soulfoodz/SCLAlertView-Swift.git
+
+SPEC CHECKSUMS:
+  AFNetworking: 8dd5f9b9691e09186393069a12cc3b5ed7c8b511
+  Google-Mobile-Ads-SDK: a71d6bc14f9cf1f66d686dbdf9ad2091de04059c
+  GoogleAppMeasurement: a6a3a066369828db64eda428cb2856dc1cdc7c4e
+  GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
+  nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
+  NSHash: 61d598c6d48957c5557f1eef0aeafd6ef5ec5fb7
+  PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
+  QRCodeReader.swift: 96292a5612fbc2fd9a0b26f93fa5164c8d02f59d
+  SCLAlertView: 9603594eeae6f8f38f67f486c841d0d397ef641f
+  SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
+  SWTableViewCell: 2a94aadc9d47b2b611fa064566bf57948b95b579
+
+PODFILE CHECKSUM: 30edf593298eff1d590f99fc9eed16ec2841abd8
+
+COCOAPODS: 1.11.2
