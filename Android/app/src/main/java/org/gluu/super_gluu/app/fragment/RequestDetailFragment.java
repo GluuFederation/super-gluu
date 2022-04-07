@@ -24,8 +24,9 @@ import org.gluu.super_gluu.app.activities.MainNavDrawerActivity;
 import org.gluu.super_gluu.app.base.ToolbarFragment;
 import org.gluu.super_gluu.app.customview.CustomAlert;
 import org.gluu.super_gluu.app.model.LogInfo;
+import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.model.OxPush2Request;
-import org.gluu.super_gluu.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.u2f.v2.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.util.Utils;
 
 import java.io.UnsupportedEncodingException;
@@ -44,9 +45,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RequestDetailFragment extends ToolbarFragment {
-
-    //region class variables
-    SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private Boolean isUserInfo = false;
     private LogInfo logInfo;
@@ -112,7 +110,7 @@ public class RequestDetailFragment extends ToolbarFragment {
     }
 
     public interface OnDeleteLogInfoListener {
-        void onDeleteLogInfo(OxPush2Request oxPush2Request);
+        void onDeleteLogInfo(LogInfo logInfo);
         void onDeleteLogInfo(List<LogInfo> logInfos);
     }
     //endregion
@@ -230,9 +228,7 @@ public class RequestDetailFragment extends ToolbarFragment {
                     Log.d(this.getClass().getName(), e.getLocalizedMessage());
                 }
             }
-            AndroidKeyDataStore dataStore = new AndroidKeyDataStore(getContext());
-            final List<byte[]> keyHandles = dataStore.getKeyHandlesByIssuerAndAppId(push2Request.getIssuer(), push2Request.getApp());
-            final boolean isEnroll = (keyHandles.size() == 0) || StringUtils.equals(push2Request.getMethod(), "enroll");
+
             eventTextView.setText(capitalize(push2Request.getMethod()));
             hourMinuteTextView.setText(getTimeFromString(push2Request.getCreated()));
             dateTextView.setText(getDateFromString(push2Request.getCreated()));
@@ -253,11 +249,16 @@ public class RequestDetailFragment extends ToolbarFragment {
         Date createdDate = null;
         if (Utils.isNotEmpty(dateString)) {
             if (isUserInfo){
-                Date resultdate = new Date(Long.valueOf(dateString));
+                Date resultdate = null;
+                try {
+                    resultdate = Settings.isoDateTimeFormat.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 return userDateTimeFormat.format(resultdate);
             } else {
                 try {
-                    createdDate = isoDateTimeFormat.parse(dateString);
+                    createdDate = Settings.isoDateTimeFormat.parse(dateString);
                 } catch (ParseException ex) {
                     Log.e(this.getClass().getName(), "Failed to parse ISO date/time: " + dateString, ex);
                 }
@@ -276,11 +277,16 @@ public class RequestDetailFragment extends ToolbarFragment {
         Date createdDate = null;
         if (Utils.isNotEmpty(dateString)) {
             if (isUserInfo){
-                Date resultdate = new Date(Long.valueOf(dateString));
+                Date resultdate = null;
+                try {
+                    resultdate = Settings.isoDateTimeFormat.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 return userDateTimeFormat.format(resultdate);
             } else {
                 try {
-                    createdDate = isoDateTimeFormat.parse(dateString);
+                    createdDate = Settings.isoDateTimeFormat.parse(dateString);
                 } catch (ParseException ex) {
                     Log.e(this.getClass().getName(), "Failed to parse ISO date/time: " + dateString, ex);
                 }
@@ -309,7 +315,7 @@ public class RequestDetailFragment extends ToolbarFragment {
             @Override
             public void onPositiveButton() {
                 if (deleteLogListener != null){
-                    deleteLogListener.onDeleteLogInfo(push2Request);
+                    deleteLogListener.onDeleteLogInfo(logInfo);
                 }
             }
 

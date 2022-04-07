@@ -1,10 +1,15 @@
 package org.gluu.super_gluu.app.fragment;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +21,12 @@ import com.google.gson.Gson;
 import org.gluu.super_gluu.app.NotificationType;
 import org.gluu.super_gluu.app.base.ToolbarFragment;
 import org.gluu.super_gluu.app.customview.CustomAlert;
-import org.gluu.super_gluu.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.app.settings.Settings;
+import org.gluu.super_gluu.store.entity.UserTokenEntry;
+import org.gluu.super_gluu.u2f.v2.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -39,7 +45,7 @@ public class KeyFragmentListFragment extends ToolbarFragment {
     private KeyHandleInfo mListener;
     private KeyHandleChangeName cListener;
     private AndroidKeyDataStore dataStore;
-    private List<TokenEntry> listToken;
+    private List<TokenEntry> listToken = new ArrayList<>();
 
     @BindView(R.id.nav_drawer_toolbar)
     Toolbar toolbar;
@@ -62,10 +68,6 @@ public class KeyFragmentListFragment extends ToolbarFragment {
         setDefaultToolbar(toolbar, getString(R.string.keys), true);
         setHasOptionsMenu(true);
 
-        listToken = getListToken(rootView);
-
-        setEmptyTextVisibility(listToken.size() > 0);
-
         mListener = new KeyHandleInfo() {
             @Override
             public void onKeyHandleInfo(KeyHandleInfoFragment infoFragment) {
@@ -80,6 +82,11 @@ public class KeyFragmentListFragment extends ToolbarFragment {
             public void onUpdateList(Boolean isEmptyList) {
                 setEmptyTextVisibility(!isEmptyList);
             }
+
+            @Override
+            public void onFetchList() {
+                getActivity().runOnUiThread(() -> fetchListToken());
+            }
         };
 
         cListener = keyID -> {
@@ -91,6 +98,8 @@ public class KeyFragmentListFragment extends ToolbarFragment {
             gluuAlert.setType(NotificationType.RENAME_KEY);
             gluuAlert.show();
         };
+
+        dataStore = new AndroidKeyDataStore(getActivity().getApplication());
 
         ViewGroup header = (ViewGroup) inflater.inflate(R.layout.key_list_header, keysListView,false);
         keysListView.addHeaderView(header);
@@ -104,40 +113,32 @@ public class KeyFragmentListFragment extends ToolbarFragment {
     @Override
     public void onResume() {
         super.onResume();
-        checkTokenList();
     }
 
-    void checkTokenList(){
-//        if (listToken.size() == 0) {
-//            renameText.setVisibility(View.GONE);
-//        }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(() -> fetchListToken());
     }
 
-    List<TokenEntry> getListToken(View view){
-        Context context = view.getContext();
-        dataStore = new AndroidKeyDataStore(context);
-        List<String> tokensString = dataStore.getTokenEntries();
-        List<TokenEntry> tokens = new ArrayList<TokenEntry>();
-        for (String tokenString : tokensString){
-            TokenEntry token = new Gson().fromJson(tokenString, TokenEntry.class);
-            tokens.add(token);
-        }
-        //Sort keys by created date
-        List<TokenEntry> tokensFromDB = new ArrayList<TokenEntry>(tokens);
-        Collections.sort(tokensFromDB, (key1, key2) -> {
-            SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-            try {
-                Date date1 = isoDateTimeFormat.parse(key1.getCreatedDate());
-                Date date2 = isoDateTimeFormat.parse(key2.getCreatedDate());
-                return date1.compareTo(date2);
-            } catch (ParseException e) {
-                e.printStackTrace();
+    void setupTokenList(List<TokenEntry> tokenList) {
+        listToken = tokenList;
+
+        setEmptyTextVisibility(listToken.size() > 0);
+        listAdapter.setList(listToken);
+    }
+
+    void fetchListToken() {
+        dataStore.getTokenEntries().observe(getViewLifecycleOwner(), tokenList -> {
+            List<TokenEntry> tokenEntryList = new ArrayList<>();
+            for (UserTokenEntry userTokenEntry: tokenList) {
+                tokenEntryList.add(new TokenEntry(userTokenEntry));
             }
-            return 0;
-        });
-        Collections.reverse(tokensFromDB);
 
-        return tokensFromDB;
+            getActivity().runOnUiThread(() -> setupTokenList(tokenEntryList));
+        });
     }
 
     public void setEmptyTextVisibility(boolean listVisible) {
@@ -151,6 +152,7 @@ public class KeyFragmentListFragment extends ToolbarFragment {
     public interface KeyHandleInfo {
         void onKeyHandleInfo(KeyHandleInfoFragment infoFragment);
         void onUpdateList(Boolean isEmtryList);
+        void onFetchList();
     }
 
     public interface KeyHandleChangeName {

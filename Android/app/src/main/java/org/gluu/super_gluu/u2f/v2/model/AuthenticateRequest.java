@@ -22,14 +22,16 @@ public class AuthenticateRequest {
     private final String challenge;
     private final String application;
     private final byte[] keyHandle;
+    private final String userName;
 
     public AuthenticateRequest(String version, byte control, String challenge, String application,
-                               byte[] keyHandle) {
+                               byte[] keyHandle, String userName) {
         this.version = version;
         this.control = control;
         this.challenge = challenge;
         this.application = application;
         this.keyHandle = keyHandle;
+        this.userName = userName;
     }
 
     public String getVersion() {
@@ -64,6 +66,13 @@ public class AuthenticateRequest {
      */
     public byte[] getKeyHandle() {
         return keyHandle;
+    }
+
+    /**
+     * The userName obtained during registration
+     */
+    public String getUserName() {
+        return userName;
     }
 
 }
