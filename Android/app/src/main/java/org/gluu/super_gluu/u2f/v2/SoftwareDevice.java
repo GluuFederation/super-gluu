@@ -161,6 +161,7 @@ public class SoftwareDevice {
     public TokenResponse sign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny) throws JSONException, U2FException {
         if (BuildConfig.DEBUG) Log.d(TAG, "Starting to process u2fMetaData: " + u2fMetaData);
         if (BuildConfig.DEBUG) Log.d(TAG, "Starting to process sign request: " + jsonRequest);
+        
         JSONObject request = (JSONObject) new JSONTokener(jsonRequest).nextValue();
 
         JSONArray authenticateRequestArray = null;
