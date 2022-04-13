@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "892865883615",
+    "firebase_url": "https://super-gluu-3dffc.firebaseio.com",
+    "project_id": "super-gluu-3dffc",
+    "storage_bucket": "super-gluu-3dffc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892865883615:android:34972a7ae0c262ea",
+        "android_client_info": {
+          "package_name": "gluu.org.super.gluu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "892865883615-37puvll8grgugdrrr0l1lekq42q3are5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl9jewyY_lV-L1yDh5VBNJrlsgoQkWeIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "892865883615-37puvll8grgugdrrr0l1lekq42q3are5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "892865883615-p1i5k8eljjc5j6cepujlq19gcl6r6i7u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ios.gluu",
+                "app_store_id": "1093479646"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
