@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.widget.Toolbar;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +28,10 @@ import org.gluu.super_gluu.app.activities.MainNavDrawerActivity;
 import org.gluu.super_gluu.app.base.ToolbarFragment;
 import org.gluu.super_gluu.app.customview.CustomAlert;
 import org.gluu.super_gluu.app.model.LogInfo;
-import org.gluu.super_gluu.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.store.entity.LogInfoEntry;
+import org.gluu.super_gluu.store.entity.UserTokenEntry;
+import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
+import org.gluu.super_gluu.u2f.v2.store.AndroidKeyDataStore;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +51,7 @@ public class LogsFragment extends ToolbarFragment {
     private AndroidKeyDataStore dataStore;
     private LogInfoListener mListener;
     public RequestDetailFragment.OnDeleteLogInfoListener deleteLogListener;
-    private List<LogInfo> logs;
+    private List<LogInfo> logs = new ArrayList<>();
 
     @BindView(R.id.nav_drawer_toolbar)
     Toolbar toolbar;
@@ -64,11 +70,10 @@ public class LogsFragment extends ToolbarFragment {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-//            String message = intent.getStringExtra("message");
+//            Handler handler = new Handler(Looper.getMainLooper());
+//            handler.post(() -> reloadLogs());
+
             reloadLogs();
-            // fire the event
-            listAdapter.updateResults(logs);
         }
     };
 
@@ -103,8 +108,8 @@ public class LogsFragment extends ToolbarFragment {
         setDefaultToolbar(toolbar, getString(R.string.logs), true);
         setHasOptionsMenu(true);
 
-        dataStore = new AndroidKeyDataStore(getActivity().getApplicationContext());
-        reloadLogs();
+        dataStore = new AndroidKeyDataStore(getActivity().getApplication());
+
         mListener = new LogInfoListener() {
             @Override
             public void onKeyHandleInfo(RequestDetailFragment requestDetailFragment) {
@@ -146,6 +151,9 @@ public class LogsFragment extends ToolbarFragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mDeleteReceiver,
                 new IntentFilter("on-delete-logs"));
 
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(() -> reloadLogs());
+
         return rootView;
     }
 
@@ -165,6 +173,16 @@ public class LogsFragment extends ToolbarFragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+//        Handler handler = new Handler(Looper.getMainLooper());
+//        handler.post(() -> reloadLogs());
+
+//        reloadLogs();
     }
 
     private void showEditContainer() {
@@ -205,27 +223,34 @@ public class LogsFragment extends ToolbarFragment {
         if (context instanceof RequestDetailFragment.OnDeleteLogInfoListener) {
             deleteLogListener = (RequestDetailFragment.OnDeleteLogInfoListener) context;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new RuntimeException(context
                     + " must implement OnDeleteKeyHandleListener");
         }
     }
 
-    private void reloadLogs(){
-        List<LogInfo> logsFromDB = new ArrayList<LogInfo>(dataStore.getLogs());
-        Collections.sort(logsFromDB, (log1, log2) -> {
-            Date date1 = new Date(Long.valueOf(log1.getCreatedDate()));
-            Date date2 = new Date(Long.valueOf(log2.getCreatedDate()));
-            return date1.compareTo(date2);
-        });
-        Collections.reverse(logsFromDB);
-        logs = logsFromDB;
-
-        if(logs.size() == 0) {
-            noLogsTextView.setVisibility(View.VISIBLE);
-        } else {
-            noLogsTextView.setVisibility(View.GONE);
+    private void reloadLogs() {
+        if (getView() == null) {
+            return;
         }
 
+        dataStore.getLogEntity().observe(getViewLifecycleOwner(), logList -> {
+            List<LogInfo> logEntryList = new ArrayList<>();
+            for (LogInfoEntry logInfoEntry: logList) {
+                logEntryList.add(new LogInfo(logInfoEntry));
+            }
+
+            getActivity().runOnUiThread(() -> setupLogList(logEntryList));
+        });
+    }
+
+    private void setupLogList(List<LogInfo> logInfoList) {
+        logs = logInfoList;
+
+        int visibility = logs.size() == 0 ? View.VISIBLE : View.GONE;
+        noLogsTextView.setVisibility(visibility);
+
+        // fire the event
+        listAdapter.updateResults(logs);
     }
 
     void showAlertView(){

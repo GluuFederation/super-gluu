@@ -6,6 +6,7 @@
 
 package org.gluu.super_gluu.u2f.v2;
 
+import android.app.Application;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -19,7 +20,7 @@ import org.gluu.super_gluu.app.services.AppFirebaseMessagingService;
 import org.gluu.super_gluu.device.DeviceUuidManager;
 import org.gluu.super_gluu.model.OxPush2Request;
 import org.gluu.super_gluu.model.U2fMetaData;
-import org.gluu.super_gluu.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.u2f.v2.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.u2f.v2.cert.KeyPairGeneratorImpl;
 import org.gluu.super_gluu.u2f.v2.codec.RawMessageCodec;
 import org.gluu.super_gluu.u2f.v2.codec.RawMessageCodecImpl;
@@ -74,14 +75,14 @@ public class SoftwareDevice {
     public static final String JSON_PROPERTY_APP_ID = "appId";
     public static final String JSON_PROPERTY_KEY_HANDLE = "keyHandle";
 
-    private final Context context;
+    private final Application application;
 
     private final RawMessageCodec rawMessageCodec;
     private final KeyPairGeneratorImpl keyPairGenerator;
     private U2FKeyImpl u2fKey;
 
-    public SoftwareDevice(Context context, DataStore dataStore) {
-        this.context = context;
+    public SoftwareDevice(Application application, DataStore dataStore) {
+        this.application = application;
         this.rawMessageCodec = new RawMessageCodecImpl();
         this.keyPairGenerator = new KeyPairGeneratorImpl();
 
@@ -123,7 +124,7 @@ public class SoftwareDevice {
         String challenge = request.getString(JSON_PROPERTY_SERVER_CHALLENGE);
         String origin = oxPush2Request.getIssuer();
 
-        AndroidKeyDataStore androidKeyDataStore = new AndroidKeyDataStore(context);
+        AndroidKeyDataStore androidKeyDataStore = new AndroidKeyDataStore(application);
         boolean isDuplicate = androidKeyDataStore.doesKeyAlreadyExist(oxPush2Request);
 
         EnrollmentResponse enrollmentResponse = u2fKey.register(new EnrollmentRequest(version, appParam, challenge, oxPush2Request));
@@ -160,6 +161,7 @@ public class SoftwareDevice {
     public TokenResponse sign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny) throws JSONException, U2FException {
         if (BuildConfig.DEBUG) Log.d(TAG, "Starting to process u2fMetaData: " + u2fMetaData);
         if (BuildConfig.DEBUG) Log.d(TAG, "Starting to process sign request: " + jsonRequest);
+        
         JSONObject request = (JSONObject) new JSONTokener(jsonRequest).nextValue();
 
         JSONArray authenticateRequestArray = null;
@@ -223,7 +225,7 @@ public class SoftwareDevice {
         response.put("keyHandle", keyHandle);
 
         AppFirebaseMessagingService firebaseMessagingService = new AppFirebaseMessagingService();
-        if (firebaseMessagingService.getPushRegistrationIdRefreshed(context)) {
+        if (firebaseMessagingService.getPushRegistrationIdRefreshed(application.getApplicationContext())) {
             String deviceDataString = getDeviceData();
             response.put("deviceData", Utils.base64UrlEncode(deviceDataString.getBytes(Charset.forName("ASCII"))));
         }
@@ -237,7 +239,7 @@ public class SoftwareDevice {
     }
 
     private String getDeviceType() {
-        UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
+        UiModeManager uiModeManager = (UiModeManager) application.getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
 
         int modeType = uiModeManager.getCurrentModeType();
         switch (modeType) {
@@ -284,8 +286,8 @@ public class SoftwareDevice {
         String versionName = getVersionName();
 
         DeviceData deviceData = new DeviceData();
-        deviceData.setUuid(DeviceUuidManager.getDeviceUuid(context).toString());
-        deviceData.setPushToken(new AppFirebaseMessagingService().getPushRegistrationId(this.context));
+        deviceData.setUuid(DeviceUuidManager.getDeviceUuid(application.getApplicationContext()).toString());
+        deviceData.setPushToken(new AppFirebaseMessagingService().getPushRegistrationId(application.getApplicationContext()));
         deviceData.setType(deviceType);
         deviceData.setPlatform("android");
         deviceData.setName(Build.MODEL);

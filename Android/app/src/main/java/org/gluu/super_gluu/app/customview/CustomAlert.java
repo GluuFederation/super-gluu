@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  */
 public class CustomAlert extends Dialog {
 
-    private String header, message, positiveText, negativeText;
+    private String header, message, text, positiveText, negativeText;
     private MainNavDrawerActivity.GluuAlertCallback listener;
     private Boolean isTextView = false;
     private String enteredText;
@@ -88,6 +88,7 @@ public class CustomAlert extends Dialog {
         }
         if (isTextView){
             alertEditText.setVisibility(View.VISIBLE);
+            alertEditText.setText(text);
             alertEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
             alertEditText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -159,6 +160,10 @@ public class CustomAlert extends Dialog {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public void setPositiveText(String positiveText) {

@@ -61,16 +61,20 @@ import org.gluu.super_gluu.device.DeviceUuidManager;
 import org.gluu.super_gluu.model.OxPush2Request;
 import org.gluu.super_gluu.model.U2fMetaData;
 import org.gluu.super_gluu.net.CommunicationService;
-import org.gluu.super_gluu.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.u2f.v2.store.AndroidKeyDataStore;
+import org.gluu.super_gluu.store.database.UserTokenEntryDatabase;
 import org.gluu.super_gluu.u2f.v2.SoftwareDevice;
 import org.gluu.super_gluu.u2f.v2.exception.U2FException;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 import org.gluu.super_gluu.u2f.v2.model.TokenResponse;
 import org.gluu.super_gluu.u2f.v2.store.DataStore;
+import org.gluu.super_gluu.util.ArrayUtils;
 import org.gluu.super_gluu.util.Utils;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -183,8 +187,9 @@ public class MainNavDrawerActivity extends BaseActivity
         DeviceUuidManager deviceUuidFactory = new DeviceUuidManager();
         deviceUuidFactory.init(this);
 
-        this.dataStore = new AndroidKeyDataStore(context);
-        this.u2f = new SoftwareDevice(this, dataStore);
+        this.dataStore = new AndroidKeyDataStore(this.getApplication());
+
+        this.u2f = new SoftwareDevice(this.getApplication(), dataStore);
 
         checkUserCameraPermission();
 
@@ -194,6 +199,9 @@ public class MainNavDrawerActivity extends BaseActivity
         setupInitialFragment();
 
         firebaseInstanceIDService.onTokenRefresh(this);
+
+        // Check migration status and start flow if needed
+        dataStore.migrateDataIfNeeded();
     }
 
     @Override
@@ -339,9 +347,6 @@ public class MainNavDrawerActivity extends BaseActivity
         }
     }
 
-    //endregion
-
-    //region interface implementations
     @Override
     public void onQrRequest(final OxPush2Request oxPush2Request) {
         if (!this.isDestroyed()) {
@@ -350,31 +355,28 @@ public class MainNavDrawerActivity extends BaseActivity
     }
 
     @Override
-    public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, Boolean isDeny)
-            throws JSONException, IOException, U2FException {
-        return u2f.sign(jsonRequest, u2fMetaData, isDeny);
+    public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny)
+            throws JSONException, U2FException {
+        return u2f.sign(jsonRequest, u2fMetaData, userName, isDeny);
     }
 
     @Override
     public TokenResponse onEnroll(String jsonRequest, OxPush2Request oxPush2Request, Boolean isDeny)
-            throws JSONException, IOException, U2FException {
+            throws JSONException, U2FException {
         return u2f.enroll(jsonRequest, oxPush2Request, isDeny);
     }
 
     @Override
-    public DataStore onGetDataStore() {
-        return dataStore;
-    }
-
-    @Override
-    public void onDeleteLogInfo(OxPush2Request oxPush2Request) {
-        dataStore.deleteLogs(oxPush2Request);
+    public void onDeleteLogInfo(LogInfo logInfo) {
+        List<LogInfo> logInfoList = new ArrayList<>();
+        logInfoList.add(logInfo);
+        dataStore.deleteLogs(logInfoList, this);
         onBackButtonClicked();
     }
 
     @Override
     public void onDeleteLogInfo(List<LogInfo> logInfo) {
-        dataStore.deleteLogs(logInfo);
+        dataStore.deleteLogs(logInfo, this);
         settings.setEditingModeLogs(false);
         reloadLogs();
     }
@@ -490,20 +492,15 @@ public class MainNavDrawerActivity extends BaseActivity
             }
 
             @Override
-            public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, Boolean isDeny)
-                    throws JSONException, IOException, U2FException {
-                return u2f.sign(jsonRequest, u2fMetaData, isDeny);
+            public TokenResponse onSign(String jsonRequest, U2fMetaData u2fMetaData, String userName, Boolean isDeny)
+                    throws JSONException, U2FException {
+                return u2f.sign(jsonRequest, u2fMetaData, userName, isDeny);
             }
 
             @Override
             public TokenResponse onEnroll(String jsonRequest, OxPush2Request oxPush2Request, Boolean isDeny)
-                    throws JSONException, IOException, U2FException {
+                    throws JSONException, U2FException {
                 return u2f.enroll(jsonRequest, oxPush2Request, isDeny);
-            }
-
-            @Override
-            public DataStore onGetDataStore() {
-                return dataStore;
             }
         });
 

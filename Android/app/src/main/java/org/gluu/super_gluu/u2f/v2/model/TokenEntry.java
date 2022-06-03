@@ -6,6 +6,8 @@
 
 package org.gluu.super_gluu.u2f.v2.model;
 
+import org.gluu.super_gluu.app.settings.Settings;
+import org.gluu.super_gluu.store.entity.UserTokenEntry;
 import org.gluu.super_gluu.u2f.v2.entry.Entry;
 
 /**
@@ -13,7 +15,7 @@ import org.gluu.super_gluu.u2f.v2.entry.Entry;
  *
  * Created by Yuriy Movchan on 01/13/2016.
  */
-public class TokenEntry extends Entry{
+public class TokenEntry extends Entry {
 
     private String keyPair;
     private String application;
@@ -31,12 +33,21 @@ public class TokenEntry extends Entry{
         setIssuer(issuer);
     }
 
-    public String getKeyPair() {
-        return keyPair;
+    public TokenEntry(UserTokenEntry userTokenEntry) {
+        setIssuer(userTokenEntry.getIssuer());
+        setUserName(userTokenEntry.getUserName());
+        setCreatedDate(Settings.isoDateTimeFormat.format(userTokenEntry.getCreatedDate()));
+
+        this.keyPair = userTokenEntry.getKeyPair();
+        this.application = userTokenEntry.getApplication();
+        this.authenticationType = userTokenEntry.getAuthenticationType();
+        this.authenticationMode = userTokenEntry.getAuthenticationMode();
+        this.keyHandle = userTokenEntry.getKeyHandle();
+        this.keyName = userTokenEntry.getKeyName();
     }
 
-    public void setKeyPair(String keyPair) {
-        this.keyPair = keyPair;
+    public String getKeyPair() {
+        return keyPair;
     }
 
     public String getApplication() {

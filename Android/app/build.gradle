@@ -25,13 +25,12 @@ android {
         }
     }
     compileSdkVersion 31
-    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "gluu.org.super.gluu"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 81
-        versionName "4.3.2"
+        versionCode 87
+        versionName "4.3.3"
         multiDexEnabled true
         signingConfig signingConfigs.config
     }
@@ -69,7 +68,7 @@ android {
     productFlavors {
         gluu {
             dimension "standard"
-            resValue "string", "versionNumber", "V" + defaultConfig.versionName
+            resValue "string", "versionNumber", "V" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ")"
         }
         whiteLabel {
             applicationId "com.whitelabel"
@@ -133,6 +132,10 @@ dependencies {
 
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+
+    //Room DB
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

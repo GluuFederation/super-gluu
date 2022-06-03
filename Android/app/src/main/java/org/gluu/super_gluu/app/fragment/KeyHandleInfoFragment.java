@@ -24,6 +24,7 @@ import org.gluu.super_gluu.app.NotificationType;
 import org.gluu.super_gluu.app.activities.MainNavDrawerActivity;
 import org.gluu.super_gluu.app.base.ToolbarFragment;
 import org.gluu.super_gluu.app.customview.CustomAlert;
+import org.gluu.super_gluu.app.settings.Settings;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 import org.gluu.super_gluu.util.Utils;
 
@@ -42,9 +43,6 @@ import butterknife.ButterKnife;
  */
 public class KeyHandleInfoFragment extends ToolbarFragment {
 
-    final SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-    final SimpleDateFormat userDateTimeFormat = new SimpleDateFormat("MMM d, yyyy HH:mm:ss");
-
     private static final String ARG_PARAM1 = "tokenEntry";
     private TokenEntry tokenEntry;
     private OnDeleteKeyHandleListener mDeleteListener;
@@ -57,8 +55,6 @@ public class KeyHandleInfoFragment extends ToolbarFragment {
     private BroadcastReceiver mDeleteReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-//            Boolean isAdFree = intent.getBooleanExtra("isAdFree", false);
             showAlertView();
         }
     };
@@ -80,7 +76,7 @@ public class KeyHandleInfoFragment extends ToolbarFragment {
             String tokenString = getArguments().getString(ARG_PARAM1);
             tokenEntry = new Gson().fromJson(tokenString, TokenEntry.class);
         }
-        //Setup message receiver\
+        //Setup message receiver
         if (mActivity == null){
             mActivity = getActivity();
         }
@@ -106,6 +102,7 @@ public class KeyHandleInfoFragment extends ToolbarFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         if (context instanceof OnDeleteKeyHandleListener) {
             mDeleteListener = (OnDeleteKeyHandleListener) context;
         } else {
@@ -117,6 +114,7 @@ public class KeyHandleInfoFragment extends ToolbarFragment {
     @Override
     public void onPause(){
         super.onPause();
+
         LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mDeleteReceiver);
     }
 
@@ -127,7 +125,6 @@ public class KeyHandleInfoFragment extends ToolbarFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.delete_action:
                 showAlertView();
@@ -187,12 +184,12 @@ public class KeyHandleInfoFragment extends ToolbarFragment {
         if (textView != null && tokenEntry.getCreatedDate() != null) {
             Date date = null;
             try {
-                date = isoDateTimeFormat.parse(tokenEntry.getCreatedDate());
+                date = Settings.isoDateTimeFormat.parse(tokenEntry.getCreatedDate());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             if (date != null) {
-                String pairingDate = userDateTimeFormat.format(date);
+                String pairingDate = Settings.userDateTimeFormat.format(date);
                 textView.setText(pairingDate);
             }
         } else {
