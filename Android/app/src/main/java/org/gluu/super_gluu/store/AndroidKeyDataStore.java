@@ -68,7 +68,7 @@ public class AndroidKeyDataStore implements DataStore {
         List<String> tokens = getTokenEntries();
         for (String tokenStr : tokens){
             TokenEntry token = new Gson().fromJson(tokenStr, TokenEntry.class);
-            if (token.getUserName().equalsIgnoreCase(tokenEntry.getUserName())){//token.getIssuer().equalsIgnoreCase(tokenEntry.getIssuer()
+            if (token.getUserName().equalsIgnoreCase(tokenEntry.getUserName()) && token.getIssuer().equalsIgnoreCase(tokenEntry.getApplication())) {
                 isSave = false;
             }
         }

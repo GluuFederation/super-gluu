@@ -264,7 +264,7 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
                                 @Override
                                 public void run() {
                                     try {
-                                        onChallengeReceived(isEnroll, u2fMetaData, u2fEndpoint, challengeJsonResponse, isDeny);
+                                        onChallengeReceived(isEnroll, u2fMetaData, u2fEndpoint, challengeJsonResponse, oxPush2Request.getUserName(), isDeny);
                                     } catch (Exception ex) {
                                         Log.e(TAG, "Failed to process challengeJsonResponse: " + challengeJsonResponse, ex);
                                         setFinalStatus(R.string.failed_process_challenge);
@@ -307,7 +307,7 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
         return u2fMetaData;
     }
 
-    private void onChallengeReceived(boolean isEnroll, final U2fMetaData u2fMetaData, final String u2fEndpoint, final String challengeJson, final Boolean isDeny) throws IOException, JSONException, U2FException {
+    private void onChallengeReceived(boolean isEnroll, final U2fMetaData u2fMetaData, final String u2fEndpoint, final String challengeJson, final String userName, final Boolean isDeny) throws IOException, JSONException, U2FException {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -319,7 +319,7 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
         if (isEnroll) {
             tokenResponse = oxPush2RequestListener.onEnroll(challengeJson, oxPush2Request, isDeny);
         } else {
-            tokenResponse = oxPush2RequestListener.onSign(challengeJson, u2fMetaData, isDeny);
+            tokenResponse = oxPush2RequestListener.onSign(challengeJson, u2fMetaData, userName, isDeny);
         }
 
         if (tokenResponse == null) {
